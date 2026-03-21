@@ -1,0 +1,848 @@
+{
+  "operators": [
+    {
+      "id": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "name": "Test Manager",
+      "email": "test.manager@example.com",
+      "skills": [
+        "billing",
+        "account"
+      ],
+      "current_load": 3,
+      "max_load": 5,
+      "status": "available",
+      "created_at": "2026-03-14T18:31:00.523Z",
+      "role": "operator",
+      "password_hash": "901a0a6482c6cd4d02f79c644da745b2:37d3e3ce66e3cef45820323eaae09eb0450cf72f42e219bd6cda70fa6caa4034cf5493f19fb13047756b37a17001176cad68b8857c8b9d2547137b626ddeee25"
+    },
+    {
+      "id": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "name": "Sudha",
+      "email": "sudha2006@gmail.com",
+      "skills": [
+        "technical",
+        "software",
+        "hardware"
+      ],
+      "current_load": 2,
+      "max_load": 5,
+      "status": "available",
+      "created_at": "2026-03-14T19:29:41.628Z",
+      "role": "operator",
+      "password_hash": "902ae92833634545b6f78281416975ca:a7429b61ba7931ab9ce6543668d076bde7597c3d0d52dbc21cae1a02c582c67391429d3eaa47c6a0e12d82c20c1b2b6fc29e9eb911526c7a4fe73c92d735afcb"
+    },
+    {
+      "id": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "name": "Shaaruk",
+      "email": "shaaruk07@gmail.com",
+      "skills": [
+        "billing"
+      ],
+      "current_load": 1,
+      "max_load": 5,
+      "status": "available",
+      "role": "operator",
+      "provider": "local",
+      "password_hash": "fef5c0a74793f05b30fc1e3e252f831d:94d14bb36a4be9b624897667ff4a4d29f83153977375c25f37acc2f8c456a4c6615a02be1dcabfefddbf5578144ad521304f937bbe5e292af8e72854352bef5c",
+      "created_at": "2026-03-14T20:58:22.304Z"
+    },
+    {
+      "id": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "name": "Mahesh",
+      "email": "mahesh12@gmail.com",
+      "skills": [
+        "hardware",
+        "infrastructure"
+      ],
+      "current_load": 2,
+      "max_load": 5,
+      "status": "available",
+      "role": "operator",
+      "provider": "local",
+      "password_hash": "d3fd78f799cb9aa356e0fedc487a9733:bd2c56712f131b920101bdcbf929023c49daf7b709c8956b0f17911cfc3c27935cf56d18b427175d347595b8121d0f2393dbe24a8167042989f00d1502246cb5",
+      "created_at": "2026-03-15T07:03:07.646Z"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "62b47893-c4c7-4fef-9580-93f1f64b1d90",
+      "title": "Cannot connect to internet - entire office down",
+      "description": "Our entire office cannot connect to the internet since 9 AM. Business is halted.",
+      "priority": "critical",
+      "category": "network",
+      "status": "resolved",
+      "assigned_to": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "created_at": "2026-03-12T16:54:11.279Z",
+      "updated_at": "2026-03-15T17:00:05.715Z",
+      "sla_deadline": "2026-03-14T18:54:11.280Z",
+      "resolved_at": "2026-03-15T17:00:05.715Z",
+      "reporter_name": "John Smith",
+      "reporter_email": "john.smith@company.com"
+    },
+    {
+      "id": "c34c589f-3f0d-42d3-9aa4-f090e6660781",
+      "title": "Server crash - production database unreachable",
+      "description": "Production server crashed. Database is unreachable and customers are affected.",
+      "priority": "critical",
+      "category": "infrastructure",
+      "status": "resolved",
+      "assigned_to": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "created_at": "2026-03-12T10:54:11.285Z",
+      "updated_at": "2026-03-15T17:00:06.715Z",
+      "sla_deadline": "2026-03-14T18:54:11.285Z",
+      "resolved_at": "2026-03-15T17:00:06.715Z",
+      "reporter_name": "Sarah Connor",
+      "reporter_email": "sarah@techcorp.com"
+    },
+    {
+      "id": "b390147a-88aa-4fae-aaf0-9e88acaa378f",
+      "title": "Double charged for subscription",
+      "description": "I was charged twice for my annual subscription this month. Please refund immediately.",
+      "priority": "high",
+      "category": "billing",
+      "status": "resolved",
+      "assigned_to": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "created_at": "2026-03-13T18:54:11.289Z",
+      "updated_at": "2026-03-15T17:00:20.489Z",
+      "sla_deadline": "2026-03-14T21:54:11.289Z",
+      "resolved_at": "2026-03-15T17:00:20.489Z",
+      "reporter_name": "Mike Davis",
+      "reporter_email": "mike.davis@gmail.com"
+    },
+    {
+      "id": "4c9a978a-d6a8-4f32-9de4-cd134249863a",
+      "title": "Cannot login - password reset not working",
+      "description": "I have been locked out of my account and password reset emails are not arriving.",
+      "priority": "high",
+      "category": "account",
+      "status": "resolved",
+      "assigned_to": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "created_at": "2026-03-12T15:54:11.292Z",
+      "updated_at": "2026-03-15T17:00:28.076Z",
+      "sla_deadline": "2026-03-14T21:54:11.292Z",
+      "resolved_at": "2026-03-15T17:00:28.076Z",
+      "reporter_name": "Lisa Anderson",
+      "reporter_email": "lisa.a@outlook.com"
+    },
+    {
+      "id": "8f174cf8-4e8a-4774-906c-8b18ed393d3b",
+      "title": "Software installation fails",
+      "description": "Installation fails on Windows 11 with error code 0x80070005.",
+      "priority": "high",
+      "category": "software",
+      "status": "resolved",
+      "assigned_to": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "created_at": "2026-03-12T16:54:11.295Z",
+      "updated_at": "2026-03-15T17:13:11.686Z",
+      "sla_deadline": "2026-03-14T21:54:11.295Z",
+      "resolved_at": "2026-03-15T17:13:11.686Z",
+      "reporter_name": "Tom Wilson",
+      "reporter_email": "twilson@business.net"
+    },
+    {
+      "id": "2ee1da07-a407-4103-bf9b-346d80545cb9",
+      "title": "Laptop screen flickering intermittently",
+      "description": "Screen starts flickering after 30 minutes of use and the issue persists after driver updates.",
+      "priority": "medium",
+      "category": "hardware",
+      "status": "resolved",
+      "assigned_to": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "created_at": "2026-03-13T08:54:11.299Z",
+      "updated_at": "2026-03-15T17:00:13.317Z",
+      "sla_deadline": "2026-03-15T17:54:11.299Z",
+      "resolved_at": "2026-03-15T17:00:13.317Z",
+      "reporter_name": "Amy Zhang",
+      "reporter_email": "amy.zhang@company.org"
+    },
+    {
+      "id": "383c1132-e726-4955-a128-224cccb14af6",
+      "title": "Slow internet speed",
+      "description": "Internet speed is consistently half of the expected bandwidth.",
+      "priority": "medium",
+      "category": "network",
+      "status": "assigned",
+      "assigned_to": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "created_at": "2026-03-13T15:54:11.303Z",
+      "updated_at": "2026-03-15T16:59:25.146Z",
+      "sla_deadline": "2026-03-15T17:54:11.303Z",
+      "resolved_at": null,
+      "reporter_name": "Carlos Rivera",
+      "reporter_email": "carlos.r@home.com"
+    },
+    {
+      "id": "8f3ffcd5-2667-457f-84ef-83f57ce4fc3f",
+      "title": "Invoice PDF not generating correctly",
+      "description": "Downloaded invoice is missing line items and totals do not match.",
+      "priority": "medium",
+      "category": "billing",
+      "status": "resolved",
+      "assigned_to": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "created_at": "2026-03-13T17:54:11.306Z",
+      "updated_at": "2026-03-15T17:00:48.166Z",
+      "sla_deadline": "2026-03-15T17:54:11.306Z",
+      "resolved_at": "2026-03-15T17:00:48.166Z",
+      "reporter_name": "Patricia Kim",
+      "reporter_email": "pkim@finance.co"
+    },
+    {
+      "id": "4927b2e5-5fb8-45f1-85a8-ce822c69f0bf",
+      "title": "Request to upgrade subscription plan",
+      "description": "Please upgrade our current plan from Basic to Premium without losing data.",
+      "priority": "low",
+      "category": "subscription",
+      "status": "in_progress",
+      "assigned_to": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "created_at": "2026-03-12T10:54:11.309Z",
+      "updated_at": "2026-03-15T17:50:05.525Z",
+      "sla_deadline": "2026-03-17T17:54:11.309Z",
+      "resolved_at": null,
+      "reporter_name": "Robert Taylor",
+      "reporter_email": "r.taylor@email.com"
+    },
+    {
+      "id": "4c5d93a5-e6ae-4e09-b1f2-ea514f74ddbc",
+      "title": "Need to add secondary email to account",
+      "description": "I want to add a backup email for security notifications.",
+      "priority": "low",
+      "category": "account",
+      "status": "assigned",
+      "assigned_to": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "created_at": "2026-03-12T10:54:11.312Z",
+      "updated_at": "2026-03-15T16:59:08.278Z",
+      "sla_deadline": "2026-03-17T17:54:11.312Z",
+      "resolved_at": null,
+      "reporter_name": "Diana Prince",
+      "reporter_email": "diana.p@webmail.com"
+    },
+    {
+      "id": "ae9ec737-68eb-4786-8dc2-b2547191a53e",
+      "title": "API Test Ticket",
+      "description": "Checking ticket creation",
+      "priority": "high",
+      "category": "billing",
+      "status": "in_progress",
+      "assigned_to": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "created_at": "2026-03-14T18:31:00.540Z",
+      "updated_at": "2026-03-15T17:00:37.756Z",
+      "sla_deadline": "2026-03-14T22:31:00.540Z",
+      "resolved_at": null,
+      "reporter_name": "Umesh",
+      "reporter_email": "umesh@example.com"
+    },
+    {
+      "id": "d19215c6-6a0b-454f-861b-465e349a3d1e",
+      "title": "Logged In Ticket",
+      "description": "Testing protected ticket creation",
+      "priority": "medium",
+      "category": "technical",
+      "status": "resolved",
+      "assigned_to": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "created_at": "2026-03-14T18:59:29.709Z",
+      "updated_at": "2026-03-15T17:13:17.620Z",
+      "sla_deadline": "2026-03-15T18:59:29.709Z",
+      "resolved_at": "2026-03-15T17:13:17.620Z",
+      "reporter_name": "Umesh",
+      "reporter_email": "umesh@example.com"
+    },
+    {
+      "id": "4a58b690-d864-457a-8ea2-4636d6c4a820",
+      "title": "Device corrupted",
+      "description": "OS crash",
+      "priority": "medium",
+      "category": "software",
+      "status": "resolved",
+      "assigned_to": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "created_at": "2026-03-14T19:31:37.690Z",
+      "updated_at": "2026-03-15T17:13:15.142Z",
+      "sla_deadline": "2026-03-15T19:31:37.690Z",
+      "resolved_at": "2026-03-15T17:13:15.142Z",
+      "reporter_name": "Kaushik",
+      "reporter_email": "kaushik2007@gmail.com"
+    },
+    {
+      "id": "9ce31806-ba4b-451e-853f-cae589df6680",
+      "title": "VPN not connecting",
+      "description": "Employee cannot connect to office VPN.",
+      "priority": "high",
+      "category": "network",
+      "status": "resolved",
+      "assigned_to": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "created_at": "2026-03-14T20:27:25.300Z",
+      "updated_at": "2026-03-15T17:00:18.081Z",
+      "sla_deadline": "2026-03-15T00:27:25.300Z",
+      "resolved_at": "2026-03-15T17:00:18.081Z",
+      "reporter_name": "Demo Employee",
+      "reporter_email": "employee.20260315015724@example.com",
+      "reporter_user_id": "bdc5cbf5-86fa-4f34-b4cc-65c4c9655172"
+    },
+    {
+      "id": "ba394f88-d71b-46b1-b5da-c2cdc700c3ac",
+      "title": "VPN not connecting",
+      "description": "Employee cannot connect to office VPN.",
+      "priority": "high",
+      "category": "network",
+      "status": "resolved",
+      "assigned_to": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "created_at": "2026-03-14T20:27:51.010Z",
+      "updated_at": "2026-03-15T17:00:35.151Z",
+      "sla_deadline": "2026-03-15T00:27:51.010Z",
+      "resolved_at": "2026-03-15T17:00:35.151Z",
+      "reporter_name": "Demo Employee",
+      "reporter_email": "employee.20260315015750@example.com",
+      "reporter_user_id": "5e2ab57c-27e8-4592-9e63-04eb156b0fd5"
+    },
+    {
+      "id": "8b228715-0665-49ab-bbea-6fee1859067f",
+      "title": "Mistranfered fund",
+      "description": "Payment sent to a wrong person",
+      "priority": "medium",
+      "category": "billing",
+      "status": "in_progress",
+      "assigned_to": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "created_at": "2026-03-14T21:03:18.821Z",
+      "updated_at": "2026-03-15T17:16:37.703Z",
+      "sla_deadline": "2026-03-15T21:03:18.821Z",
+      "resolved_at": null,
+      "reporter_name": "Shwetha",
+      "reporter_email": "shwetha17@gmail.com",
+      "reporter_user_id": "63dfb292-29dc-4d16-8a65-2b5a1d02fda1"
+    },
+    {
+      "id": "10c429a3-6738-4e02-8cb2-294d3c969333",
+      "title": "New employee flow verification",
+      "description": "Validating manager-created employee access",
+      "priority": "high",
+      "category": "network",
+      "status": "assigned",
+      "assigned_to": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "created_at": "2026-03-14T21:51:45.943Z",
+      "updated_at": "2026-03-15T16:59:25.184Z",
+      "sla_deadline": "2026-03-15T01:51:45.943Z",
+      "resolved_at": null,
+      "reporter_name": "Managed Employee",
+      "reporter_email": "managed.employee.1773525105@example.com",
+      "reporter_user_id": "e8fa6afa-e936-4512-98fe-1003fa144c49"
+    },
+    {
+      "id": "0b4e6929-f1b7-4912-9e82-2d8d398455db",
+      "title": "Monitor issue",
+      "description": "Screen flikering",
+      "priority": "high",
+      "category": "hardware",
+      "status": "resolved",
+      "assigned_to": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "created_at": "2026-03-14T22:08:12.455Z",
+      "updated_at": "2026-03-15T17:00:15.027Z",
+      "sla_deadline": "2026-03-15T02:08:12.455Z",
+      "resolved_at": "2026-03-15T17:00:15.027Z",
+      "reporter_name": "Abhi",
+      "reporter_email": "abhi12@gmail.com",
+      "reporter_user_id": "d991ba3a-8508-4b31-9516-aba14abb2377"
+    },
+    {
+      "id": "6da63513-7332-438a-89ac-98937fa8b624",
+      "title": "Deletion flow ticket 1773526838",
+      "description": "Verifying delete and reassignment flow",
+      "priority": "medium",
+      "category": "subscription",
+      "status": "in_progress",
+      "assigned_to": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "created_at": "2026-03-14T22:20:39.449Z",
+      "updated_at": "2026-03-15T17:00:44.188Z",
+      "sla_deadline": "2026-03-15T22:20:39.450Z",
+      "resolved_at": null,
+      "reporter_name": "Delete Flow Employee",
+      "reporter_email": "delete.employee.1773526838@example.com",
+      "reporter_user_id": "995f0698-a4c6-4417-a9d9-861734805b73"
+    },
+    {
+      "id": "afcb8a5f-a5b8-4a83-b8ab-63c09c339379",
+      "title": "Keyboard issue",
+      "description": "Some keys are not working",
+      "priority": "high",
+      "category": "hardware",
+      "status": "resolved",
+      "assigned_to": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "created_at": "2026-03-15T07:04:38.517Z",
+      "updated_at": "2026-03-15T17:00:08.568Z",
+      "sla_deadline": "2026-03-15T11:04:38.517Z",
+      "resolved_at": "2026-03-15T17:00:08.568Z",
+      "reporter_name": "Shwetha",
+      "reporter_email": "shwetha17@gmail.com",
+      "reporter_user_id": "63dfb292-29dc-4d16-8a65-2b5a1d02fda1"
+    },
+    {
+      "id": "a7cdf9e3-3054-4534-95ef-189dc47b204b",
+      "title": "Network",
+      "description": "Slow internet",
+      "priority": "high",
+      "category": "network",
+      "status": "in_progress",
+      "assigned_to": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "created_at": "2026-03-15T17:46:48.949Z",
+      "updated_at": "2026-03-15T17:49:55.815Z",
+      "sla_deadline": "2026-03-15T21:46:48.950Z",
+      "resolved_at": null,
+      "reporter_name": "Pinto",
+      "reporter_email": "pinto555@gmail.com",
+      "reporter_user_id": "fc3b9be1-522f-4d4a-9330-082d19259ea2"
+    }
+  ],
+  "assignment_logs": [
+    {
+      "id": "e6c4d379-b64f-45be-b455-d50680a31ab8",
+      "ticket_id": "62b47893-c4c7-4fef-9580-93f1f64b1d90",
+      "operator_id": "f7962c59-250e-408b-9c44-10475a12f213",
+      "reason": "Exact skill match for \"network\"; Completely free (no active tickets); Operator is available; Critical ticket priority boost",
+      "score": 115,
+      "assigned_at": "2026-03-14T17:54:11.282Z"
+    },
+    {
+      "id": "e9af4724-271a-48d7-89ce-5aa3a26e4476",
+      "ticket_id": "c34c589f-3f0d-42d3-9aa4-f090e6660781",
+      "operator_id": "2987d34b-7607-4964-99de-6c955a3d8965",
+      "reason": "Exact skill match for \"infrastructure\"; Completely free (no active tickets); Operator is available; Critical ticket priority boost",
+      "score": 115,
+      "assigned_at": "2026-03-14T17:54:11.286Z"
+    },
+    {
+      "id": "8fef8c7c-5320-4498-9b57-fc6e46ea72d9",
+      "ticket_id": "b390147a-88aa-4fae-aaf0-9e88acaa378f",
+      "operator_id": "bf037083-7787-4c70-aaec-69e744fe8e72",
+      "reason": "Exact skill match for \"billing\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T17:54:11.290Z"
+    },
+    {
+      "id": "994a023a-da4e-4454-a819-af1262e91895",
+      "ticket_id": "4c9a978a-d6a8-4f32-9de4-cd134249863a",
+      "operator_id": "e8b0d849-3ba9-4e7d-9835-7a62752942e1",
+      "reason": "Exact skill match for \"account\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T17:54:11.293Z"
+    },
+    {
+      "id": "e4ff4cbd-ed11-424a-be9f-4d8f1eda2cf5",
+      "ticket_id": "8f174cf8-4e8a-4774-906c-8b18ed393d3b",
+      "operator_id": "2835ddae-971d-49ed-b805-a859bc6b6e8c",
+      "reason": "Exact skill match for \"software\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T17:54:11.296Z"
+    },
+    {
+      "id": "f5bc15e6-919a-40ef-bb75-921a505f02f0",
+      "ticket_id": "2ee1da07-a407-4103-bf9b-346d80545cb9",
+      "operator_id": "f3907f64-517d-4eff-b86c-9eb15e41cf03",
+      "reason": "Exact skill match for \"hardware\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T17:54:11.300Z"
+    },
+    {
+      "id": "562c56dc-d957-4c80-b465-423e4b836039",
+      "ticket_id": "383c1132-e726-4955-a128-224cccb14af6",
+      "operator_id": "f7962c59-250e-408b-9c44-10475a12f213",
+      "reason": "Exact skill match for \"network\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-14T17:54:11.303Z"
+    },
+    {
+      "id": "cdafad98-6ad3-4df0-a04f-d3216e2a9920",
+      "ticket_id": "8f3ffcd5-2667-457f-84ef-83f57ce4fc3f",
+      "operator_id": "a3c5946c-8ed8-4dce-9cb1-d96af21ff247",
+      "reason": "Exact skill match for \"billing\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T17:54:11.307Z"
+    },
+    {
+      "id": "7592d4fd-29a1-415e-a8da-acf71b12f51b",
+      "ticket_id": "4927b2e5-5fb8-45f1-85a8-ce822c69f0bf",
+      "operator_id": "a3c5946c-8ed8-4dce-9cb1-d96af21ff247",
+      "reason": "Exact skill match for \"subscription\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-14T17:54:11.310Z"
+    },
+    {
+      "id": "7c5f05a7-61cf-4ee6-b270-4fcd1111d62e",
+      "ticket_id": "4c5d93a5-e6ae-4e09-b1f2-ea514f74ddbc",
+      "operator_id": "bf037083-7787-4c70-aaec-69e744fe8e72",
+      "reason": "Exact skill match for \"account\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-14T17:54:11.313Z"
+    },
+    {
+      "id": "71486ad7-3bdf-417e-89cb-8256ea40cb8e",
+      "ticket_id": "ae9ec737-68eb-4786-8dc2-b2547191a53e",
+      "operator_id": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "reason": "Exact skill match for \"billing\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T18:31:00.552Z"
+    },
+    {
+      "id": "9224e9bf-bf50-4191-a91f-0fadc3d68d2d",
+      "ticket_id": "d19215c6-6a0b-454f-861b-465e349a3d1e",
+      "operator_id": "8b16a561-e62b-4a9c-909e-de273da59c0f",
+      "reason": "Exact skill match for \"technical\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T18:59:29.742Z"
+    },
+    {
+      "id": "36365ec6-40bf-4394-8c56-a7e7a598f412",
+      "ticket_id": "4a58b690-d864-457a-8ea2-4636d6c4a820",
+      "operator_id": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "reason": "Exact skill match for \"software\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T19:32:03.729Z"
+    },
+    {
+      "id": "6aebed99-c111-49ee-9007-c7340ee0f1e6",
+      "ticket_id": "9ce31806-ba4b-451e-853f-cae589df6680",
+      "operator_id": "2987d34b-7607-4964-99de-6c955a3d8965",
+      "reason": "Exact skill match for \"network\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-14T20:27:25.302Z"
+    },
+    {
+      "id": "cadd8b12-302a-41b4-9df6-10ae839f1278",
+      "ticket_id": "ba394f88-d71b-46b1-b5da-c2cdc700c3ac",
+      "operator_id": "8b16a561-e62b-4a9c-909e-de273da59c0f",
+      "reason": "Exact skill match for \"network\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-14T20:27:51.011Z"
+    },
+    {
+      "id": "1d75cca4-1ef2-444a-89c3-c087774cbda9",
+      "ticket_id": "8b228715-0665-49ab-bbea-6fee1859067f",
+      "operator_id": "0ba5ae1e-2f0e-46d8-9a33-42077fbb3769",
+      "reason": "Exact skill match for \"billing\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T21:03:18.824Z"
+    },
+    {
+      "id": "136eecb9-b55b-4fad-9bea-171fe227d465",
+      "ticket_id": "8b228715-0665-49ab-bbea-6fee1859067f",
+      "operator_id": "0ba5ae1e-2f0e-46d8-9a33-42077fbb3769",
+      "reason": "Exact skill match for \"billing\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T21:05:51.489Z"
+    },
+    {
+      "id": "d316fbc1-e807-4f6d-b17d-76fdfbd0f6c8",
+      "ticket_id": "10c429a3-6738-4e02-8cb2-294d3c969333",
+      "operator_id": "e94bff89-0fba-429e-9202-c04966425ff2",
+      "reason": "Exact skill match for \"network\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T21:51:45.944Z"
+    },
+    {
+      "id": "edcc2baf-9731-412f-8dff-c5d4566d11c2",
+      "ticket_id": "0b4e6929-f1b7-4912-9e82-2d8d398455db",
+      "operator_id": "a8af9642-6270-486d-8e81-5d7c0ba3031c",
+      "reason": "Exact skill match for \"hardware\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T22:08:12.458Z"
+    },
+    {
+      "id": "99b33d6c-5f79-4823-bbd8-75dd56c1cf2e",
+      "ticket_id": "6da63513-7332-438a-89ac-98937fa8b624",
+      "operator_id": "dd2746ce-2120-4b7f-9fc1-03b437b6882c",
+      "reason": "Exact skill match for \"subscription\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-14T22:20:39.451Z"
+    },
+    {
+      "id": "cf829900-30f4-4343-97b8-7c64c2a6f963",
+      "ticket_id": "6da63513-7332-438a-89ac-98937fa8b624",
+      "operator_id": "a3c5946c-8ed8-4dce-9cb1-d96af21ff247",
+      "reason": "Exact skill match for \"subscription\"; Moderate workload; Operator is available",
+      "score": 85,
+      "assigned_at": "2026-03-14T22:20:39.542Z"
+    },
+    {
+      "id": "8ff6601f-7e4c-4159-9745-819080e2dd5b",
+      "ticket_id": "0b4e6929-f1b7-4912-9e82-2d8d398455db",
+      "operator_id": "f3907f64-517d-4eff-b86c-9eb15e41cf03",
+      "reason": "Exact skill match for \"hardware\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-14T22:23:03.484Z"
+    },
+    {
+      "id": "9f417995-f1b6-42db-8914-aaf94912d9ab",
+      "ticket_id": "afcb8a5f-a5b8-4a83-b8ab-63c09c339379",
+      "operator_id": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "reason": "Exact skill match for \"hardware\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-15T07:04:38.520Z"
+    },
+    {
+      "id": "858c3e09-4349-4475-b5f6-2e9dfe0fec3d",
+      "ticket_id": "8f174cf8-4e8a-4774-906c-8b18ed393d3b",
+      "operator_id": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "reason": "Exact skill match for \"software\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-15T16:58:52.582Z"
+    },
+    {
+      "id": "bf98fcc4-1be7-4de2-961d-c04430d1bb35",
+      "ticket_id": "4c9a978a-d6a8-4f32-9de4-cd134249863a",
+      "operator_id": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "reason": "Exact skill match for \"account\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-15T16:58:57.528Z"
+    },
+    {
+      "id": "edd72ae7-bec4-48cc-8101-6eae2d828767",
+      "ticket_id": "10c429a3-6738-4e02-8cb2-294d3c969333",
+      "operator_id": "f7962c59-250e-408b-9c44-10475a12f213",
+      "reason": "Exact skill match for \"network\"; Moderate workload; Operator is available",
+      "score": 85,
+      "assigned_at": "2026-03-15T16:59:02.391Z"
+    },
+    {
+      "id": "36d72ede-7baa-4511-b28f-cc9dfee1861d",
+      "ticket_id": "8b228715-0665-49ab-bbea-6fee1859067f",
+      "operator_id": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "reason": "Exact skill match for \"billing\"; Completely free (no active tickets); Operator is available",
+      "score": 100,
+      "assigned_at": "2026-03-15T16:59:05.855Z"
+    },
+    {
+      "id": "b4d70e7b-78c5-43b2-b512-1cbacdd361ad",
+      "ticket_id": "b390147a-88aa-4fae-aaf0-9e88acaa378f",
+      "operator_id": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "reason": "Exact skill match for \"billing\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-15T16:59:08.262Z"
+    },
+    {
+      "id": "3a9dc667-3d9d-4add-91cf-f3a5cd0b447e",
+      "ticket_id": "4c5d93a5-e6ae-4e09-b1f2-ea514f74ddbc",
+      "operator_id": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "reason": "Exact skill match for \"account\"; Moderate workload; Operator is available",
+      "score": 85,
+      "assigned_at": "2026-03-15T16:59:08.278Z"
+    },
+    {
+      "id": "25c845a2-9fbb-4779-8840-c48a832edd7b",
+      "ticket_id": "2ee1da07-a407-4103-bf9b-346d80545cb9",
+      "operator_id": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "reason": "Exact skill match for \"hardware\"; Very light workload; Operator is available",
+      "score": 95,
+      "assigned_at": "2026-03-15T16:59:12.281Z"
+    },
+    {
+      "id": "bbeebdfb-9999-4cac-9d92-a47094ba02e7",
+      "ticket_id": "0b4e6929-f1b7-4912-9e82-2d8d398455db",
+      "operator_id": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "reason": "Exact skill match for \"hardware\"; Moderate workload; Operator is available",
+      "score": 85,
+      "assigned_at": "2026-03-15T16:59:12.297Z"
+    },
+    {
+      "id": "d48ba331-2f45-4850-9e91-47bc8a743447",
+      "ticket_id": "c34c589f-3f0d-42d3-9aa4-f090e6660781",
+      "operator_id": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "reason": "Exact skill match for \"infrastructure\"; Moderate workload; Operator is available",
+      "score": 85,
+      "assigned_at": "2026-03-15T16:59:16.428Z"
+    },
+    {
+      "id": "1c70669b-22a7-4599-8a5e-ad6c529d3de2",
+      "ticket_id": "9ce31806-ba4b-451e-853f-cae589df6680",
+      "operator_id": "8b16a561-e62b-4a9c-909e-de273da59c0f",
+      "reason": "Exact skill match for \"network\"; Moderate workload; Operator is available",
+      "score": 85,
+      "assigned_at": "2026-03-15T16:59:16.440Z"
+    },
+    {
+      "id": "ba4cfca9-1b2f-4c7d-a46e-52b88af9be86",
+      "ticket_id": "d19215c6-6a0b-454f-861b-465e349a3d1e",
+      "operator_id": "f7962c59-250e-408b-9c44-10475a12f213",
+      "reason": "Exact skill match for \"technical\"; Heavy workload; Operator is available",
+      "score": 78,
+      "assigned_at": "2026-03-15T16:59:21.085Z"
+    },
+    {
+      "id": "d27f64c5-1aa0-4c7e-82d3-78c63c2ed79d",
+      "ticket_id": "9ce31806-ba4b-451e-853f-cae589df6680",
+      "operator_id": "f7962c59-250e-408b-9c44-10475a12f213",
+      "reason": "Exact skill match for \"network\"; Near capacity; Operator is available",
+      "score": 72,
+      "assigned_at": "2026-03-15T16:59:21.096Z"
+    },
+    {
+      "id": "e57a1b04-41c9-4963-8787-f7e02986ba0b",
+      "ticket_id": "ba394f88-d71b-46b1-b5da-c2cdc700c3ac",
+      "operator_id": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "reason": "No direct skill match (general assignment); Moderate workload; Operator is available",
+      "score": 40,
+      "assigned_at": "2026-03-15T16:59:21.117Z"
+    },
+    {
+      "id": "c2a62a50-b548-4424-9304-10a97f910ed6",
+      "ticket_id": "62b47893-c4c7-4fef-9580-93f1f64b1d90",
+      "operator_id": "a3c5946c-8ed8-4dce-9cb1-d96af21ff247",
+      "reason": "No direct skill match (general assignment); Moderate workload; Operator is available",
+      "score": 40,
+      "assigned_at": "2026-03-15T16:59:25.133Z"
+    },
+    {
+      "id": "463177df-b8f4-459d-8622-c0107e49d341",
+      "ticket_id": "383c1132-e726-4955-a128-224cccb14af6",
+      "operator_id": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "reason": "No direct skill match (general assignment); Heavy workload; Operator is available",
+      "score": 33,
+      "assigned_at": "2026-03-15T16:59:25.146Z"
+    },
+    {
+      "id": "e64e2581-f587-4824-810d-78b7f6a22e36",
+      "ticket_id": "d19215c6-6a0b-454f-861b-465e349a3d1e",
+      "operator_id": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "reason": "Exact skill match for \"technical\"; Heavy workload; Operator is available",
+      "score": 78,
+      "assigned_at": "2026-03-15T16:59:25.158Z"
+    },
+    {
+      "id": "0a6294be-6711-42d4-a25a-78b61a4d6709",
+      "ticket_id": "9ce31806-ba4b-451e-853f-cae589df6680",
+      "operator_id": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "reason": "No direct skill match (general assignment); Heavy workload; Operator is available",
+      "score": 33,
+      "assigned_at": "2026-03-15T16:59:25.171Z"
+    },
+    {
+      "id": "f900324b-fcf6-4449-a561-393a6a178761",
+      "ticket_id": "10c429a3-6738-4e02-8cb2-294d3c969333",
+      "operator_id": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "reason": "No direct skill match (general assignment); Heavy workload; Operator is available",
+      "score": 33,
+      "assigned_at": "2026-03-15T16:59:25.184Z"
+    },
+    {
+      "id": "7881754f-64b3-45eb-bb18-40d238394588",
+      "ticket_id": "62b47893-c4c7-4fef-9580-93f1f64b1d90",
+      "operator_id": "6ea08048-88c1-41d7-829d-8b146eec40f1",
+      "reason": "No direct skill match (general assignment); Near capacity; Operator is available",
+      "score": 27,
+      "assigned_at": "2026-03-15T16:59:38.450Z"
+    },
+    {
+      "id": "d92c2ad2-5cb8-42e9-82cb-49c014e547fa",
+      "ticket_id": "8f3ffcd5-2667-457f-84ef-83f57ce4fc3f",
+      "operator_id": "bf6176aa-6770-46be-860f-b0ef9f7cfd78",
+      "reason": "Exact skill match for \"billing\"; Near capacity; Operator is available",
+      "score": 72,
+      "assigned_at": "2026-03-15T16:59:38.464Z"
+    },
+    {
+      "id": "76b90bbe-cfd9-44ff-9bb9-b655f3ddb205",
+      "ticket_id": "4927b2e5-5fb8-45f1-85a8-ce822c69f0bf",
+      "operator_id": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "reason": "No direct skill match (general assignment); Near capacity; Operator is available",
+      "score": 27,
+      "assigned_at": "2026-03-15T16:59:38.482Z"
+    },
+    {
+      "id": "b64f469a-d10a-4907-9175-cea1781445ed",
+      "ticket_id": "6da63513-7332-438a-89ac-98937fa8b624",
+      "operator_id": "da0ab750-a002-4360-b635-bbb63fe4bbbd",
+      "reason": "No direct skill match (general assignment); Near capacity; Operator is available",
+      "score": 27,
+      "assigned_at": "2026-03-15T16:59:38.509Z"
+    },
+    {
+      "id": "d16e3228-6cae-45e6-9a32-4ca56bf156ef",
+      "ticket_id": "a7cdf9e3-3054-4534-95ef-189dc47b204b",
+      "operator_id": "424a5a74-26be-44c8-b132-a1f22931722a",
+      "reason": "No direct skill match (general assignment); Very light workload; Operator is available",
+      "score": 50,
+      "assigned_at": "2026-03-15T17:46:48.952Z"
+    }
+  ],
+  "sla_rules": [
+    {
+      "priority": "critical",
+      "hours_limit": 1,
+      "description": "Critical issues must be resolved within 1 hour"
+    },
+    {
+      "priority": "high",
+      "hours_limit": 4,
+      "description": "High priority issues must be resolved within 4 hours"
+    },
+    {
+      "priority": "medium",
+      "hours_limit": 24,
+      "description": "Medium priority issues must be resolved within 24 hours"
+    },
+    {
+      "priority": "low",
+      "hours_limit": 72,
+      "description": "Low priority issues must be resolved within 72 hours"
+    }
+  ],
+  "managers": [
+    {
+      "id": "ca9a66f6-c898-413a-b66f-7c1fd3714df9",
+      "name": "Umeshwaran",
+      "email": "umesh12@gmail.com",
+      "password_hash": "29ed40c5479098125d89b88e0e9376c1:9e3c153cc650185812f66ff2ce28661613dc5605f9eaef12ea24f169ecc7f042b6980f51079c611dd03ffba4576af3da82aaa65ba160d634974b5d28983642b0",
+      "provider": "local",
+      "google_sub": null,
+      "role": "manager",
+      "created_at": "2026-03-15T13:54:17.942Z"
+    }
+  ],
+  "employees": [
+    {
+      "id": "63dfb292-29dc-4d16-8a65-2b5a1d02fda1",
+      "name": "Shwetha",
+      "email": "shwetha17@gmail.com",
+      "password_hash": "6070df8b123150b60a56b16be88aa396:88d7f42adf29a3ef972b98244abb76e9cb78c4b034f7d25c4dd377c0778ada3f8702ee793f4ac9fab9657b54448b867fe7e3fdfffcbe73e84e3dd23a8fcbc0bd",
+      "provider": "local",
+      "google_sub": null,
+      "role": "employee",
+      "created_at": "2026-03-14T21:02:08.626Z"
+    },
+    {
+      "id": "d991ba3a-8508-4b31-9516-aba14abb2377",
+      "name": "Abhi",
+      "email": "abhi12@gmail.com",
+      "password_hash": "33e3e48f9eed48024d55df0c2f133f4c:854c4db32c0ebc084ede2c3be3f119bdfec08c51afc85847e926135589add13b7a8cd9185210b4524dea854638ba99a198d7b020a20f8eb536092a990b552f16",
+      "provider": "local",
+      "google_sub": null,
+      "role": "employee",
+      "created_at": "2026-03-14T22:05:08.726Z"
+    },
+    {
+      "id": "ca9c5866-94c9-4a44-828c-9d24f3c97e09",
+      "name": "Kaushik",
+      "email": "kaushik7@gmail.com",
+      "password_hash": "bd3eca354f9837af36a17d189b615276:2d53c0a22044da02e7b9ca02aa43929a2638482e20f8e5b2f7ec9dd08ddc922ef4495f7d22de9f6448b1cc172a617b7db83723a538ed14550cdb394e54939963",
+      "provider": "local",
+      "google_sub": null,
+      "role": "employee",
+      "created_at": "2026-03-15T17:08:00.286Z"
+    },
+    {
+      "id": "a568b667-099b-45f4-a7f8-93786ffbe338",
+      "name": "Venky",
+      "email": "balli999@gmail.com",
+      "password_hash": "a121928f674d46c525bd2081ed63db02:d2aff5fae5bbb37393d6b963ae87229530401b40535f02e69222f792f5ed7c287145f869c311486f0ef2d7398b9bcd7144f851e5b8dced435825ad79fd29ec60",
+      "provider": "local",
+      "google_sub": null,
+      "role": "employee",
+      "created_at": "2026-03-15T17:10:37.220Z"
+    },
+    {
+      "id": "fc3b9be1-522f-4d4a-9330-082d19259ea2",
+      "name": "Pinto",
+      "email": "pinto555@gmail.com",
+      "password_hash": "c464de9a4f4e7bffdd7fdb112240f772:d81fb7ba664036f1e5fd171d53fb93dcffb1a6e8408ad590c0aee63d35aa4549c1fc5130362d19e6c095dc028f11cb7bf6491dd2c46d6f39ccd22741635c3eb6",
+      "provider": "local",
+      "google_sub": null,
+      "role": "employee",
+      "created_at": "2026-03-15T17:11:44.539Z"
+    }
+  ],
+  "reports": []
+}

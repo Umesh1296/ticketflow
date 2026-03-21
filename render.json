@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm install && npm run build",
+  "buildDirectory": "dist",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "http://localhost:5000/api/$1"
+    },
+    {
+      "source": "(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
