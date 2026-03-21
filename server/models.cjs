@@ -4,7 +4,7 @@ const ManagerSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String },
+  password_hash: { type: String },
   role: { type: String, default: 'manager' },
   googleId: { type: String },
   avatarUrl: { type: String }
@@ -14,7 +14,7 @@ const EmployeeSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String },
+  password_hash: { type: String },
   role: { type: String, default: 'employee' },
   googleId: { type: String },
   avatarUrl: { type: String }
@@ -24,7 +24,7 @@ const OperatorSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String },
+  password_hash: { type: String },
   role: { type: String, default: 'operator' },
   skills: [{ type: String }],
   status: { type: String, default: 'offline' }, // 'available', 'offline'
