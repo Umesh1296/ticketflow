@@ -67,7 +67,7 @@ const ReportSchema = new mongoose.Schema({
   operator_email: { type: String },
   reporter_name: { type: String },
   reporter_email: { type: String },
-  sla_status: { type: String }
+  sla_status: { type: Object }
 })
 
 const SlaRuleSchema = new mongoose.Schema({
