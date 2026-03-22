@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const ManagerSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
+  display_id: { type: String, sparse: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password_hash: { type: String },
@@ -12,6 +13,7 @@ const ManagerSchema = new mongoose.Schema({
 
 const EmployeeSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
+  display_id: { type: String, sparse: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password_hash: { type: String },
@@ -22,6 +24,7 @@ const EmployeeSchema = new mongoose.Schema({
 
 const OperatorSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
+  display_id: { type: String, sparse: true, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password_hash: { type: String },
@@ -36,6 +39,7 @@ const OperatorSchema = new mongoose.Schema({
 
 const TicketSchema = new mongoose.Schema({
   id: { type: String, required: true, unique: true },
+  display_id: { type: String, sparse: true, unique: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   priority: { type: String, required: true },
@@ -76,6 +80,11 @@ const SlaRuleSchema = new mongoose.Schema({
   description: { type: String }
 })
 
+const CounterSchema = new mongoose.Schema({
+  id: { type: String, required: true, unique: true },
+  seq: { type: Number, default: 0 }
+})
+
 const Manager = mongoose.model('Manager', ManagerSchema)
 const Employee = mongoose.model('Employee', EmployeeSchema)
 const Operator = mongoose.model('Operator', OperatorSchema)
@@ -83,6 +92,7 @@ const Ticket = mongoose.model('Ticket', TicketSchema)
 const AssignmentLog = mongoose.model('AssignmentLog', AssignmentLogSchema)
 const Report = mongoose.model('Report', ReportSchema)
 const SlaRule = mongoose.model('SlaRule', SlaRuleSchema)
+const Counter = mongoose.model('Counter', CounterSchema)
 
 module.exports = {
   Manager,
@@ -91,5 +101,6 @@ module.exports = {
   Ticket,
   AssignmentLog,
   Report,
-  SlaRule
+  SlaRule,
+  Counter
 }

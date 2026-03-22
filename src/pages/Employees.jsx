@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { CheckCircle2, Clock3, KeyRound, Plus, RefreshCw, ShieldCheck, Trash2, UserRound, Users } from 'lucide-react'
 import { getFriendlyErrorMessage } from '../lib/api.js'
 
-export default function Employees({ API, addToast, onRefresh }) {
+export default function Employees({ API, addToast, onRefresh, refreshKey }) {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -29,7 +29,7 @@ export default function Employees({ API, addToast, onRefresh }) {
 
   useEffect(() => {
     fetchEmployees()
-  }, [fetchEmployees])
+  }, [fetchEmployees, refreshKey])
 
   const handleAddEmployee = async () => {
     if (!form.name.trim() || !form.email.trim()) {
@@ -126,10 +126,6 @@ export default function Employees({ API, addToast, onRefresh }) {
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <button className="btn btn-secondary btn-sm" onClick={fetchEmployees}>
-            <RefreshCw size={12} />
-            Refresh
-          </button>
           <button className="btn btn-primary" onClick={() => setShowForm((current) => !current)}>
             <Plus size={14} />
             Add Employee
@@ -210,7 +206,10 @@ export default function Employees({ API, addToast, onRefresh }) {
                 </div>
 
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, fontSize: 14 }}>{employee.name}</div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>
+                    {employee.display_id ? <span style={{ color: 'var(--accent)', marginRight: 6 }}>{employee.display_id}</span> : null}
+                    {employee.name}
+                  </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 6 }}>{employee.email}</div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     <span className="employee-meta-chip">

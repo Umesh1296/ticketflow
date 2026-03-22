@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Activity, RefreshCw, Zap } from 'lucide-react'
 import { getFriendlyErrorMessage } from '../lib/api.js'
 
-export default function AssignmentLogs({ API, addToast }) {
+export default function AssignmentLogs({ API, addToast, refreshKey }) {
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -43,7 +43,7 @@ export default function AssignmentLogs({ API, addToast }) {
 
   useEffect(() => {
     fetchLogs()
-  }, [fetchLogs])
+  }, [fetchLogs, refreshKey])
 
   return (
     <div className="fade-in">
@@ -54,9 +54,6 @@ export default function AssignmentLogs({ API, addToast }) {
             Full history of each auto-assignment decision made by the algorithm.
           </p>
         </div>
-        <button className="btn btn-secondary btn-sm" onClick={fetchLogs}>
-          <RefreshCw size={12} /> Refresh
-        </button>
       </div>
 
       <div className="card" style={{ padding: 20, marginBottom: 20, borderLeft: '3px solid var(--accent)' }}>

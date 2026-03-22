@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Activity, AlertTriangle, ChevronRight, FileText, LayoutDashboard, LogOut, Menu, RefreshCw, Search, Settings, Ticket, UserRound, Users, X, Zap } from 'lucide-react'
+import { Activity, AlertTriangle, ChevronRight, FileText, LayoutDashboard, LogOut, Menu, Moon, RefreshCw, Search, Settings, Sun, Ticket, UserRound, Users, X, Zap } from 'lucide-react'
 import Dashboard from './pages/Dashboard.jsx'
 import Tickets from './pages/Tickets.jsx'
 import Employees from './pages/Employees.jsx'
@@ -27,6 +27,7 @@ const DEFAULT_AUTH_CONFIG = {
 }
 
 export default function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem('ticketview_theme') || 'light')
   const [page, setPage] = useState('dashboard')
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showReportsModal, setShowReportsModal] = useState(false)
@@ -64,6 +65,11 @@ export default function App() {
   }, [addToast])
 
   useEffect(() => {
+    document.body.setAttribute('data-theme', theme)
+    localStorage.setItem('ticketview_theme', theme)
+  }, [theme])
+
+  useEffect(() => {
     setUnauthorizedHandler(() => {
       clearSession('Session expired. Please sign in again.')
     })
@@ -84,6 +90,7 @@ export default function App() {
 
   const fetchStats = useCallback(async () => {
     try {
+      setTicketRefreshKey((k) => k + 1)
       const { data } = await API.get('/dashboard/stats')
       setStats(data.data)
     } catch (err) {
@@ -94,6 +101,10 @@ export default function App() {
       addToast(getFriendlyErrorMessage(err, 'Failed to load dashboard'), 'error')
     }
   }, [addToast])
+
+  useEffect(() => {
+    fetchAuthConfig()
+  }, [fetchAuthConfig])
 
   useEffect(() => {
     let cancelled = false
@@ -228,22 +239,22 @@ export default function App() {
     }
 
     if (page === 'tickets') {
-      return <Tickets API={API} addToast={addToast} onRefresh={fetchStats} />
+      return <Tickets API={API} addToast={addToast} onRefresh={fetchStats} refreshKey={ticketRefreshKey} />
     }
 
     if (page === 'employees') {
-      return <Employees API={API} addToast={addToast} onRefresh={fetchStats} />
+      return <Employees API={API} addToast={addToast} onRefresh={fetchStats} refreshKey={ticketRefreshKey} />
     }
 
     if (page === 'operators') {
-      return <Operators API={API} addToast={addToast} onRefresh={fetchStats} />
+      return <Operators API={API} addToast={addToast} onRefresh={fetchStats} refreshKey={ticketRefreshKey} />
     }
 
     if (page === 'settings') {
       return <ManagerSettings API={API} addToast={addToast} user={user} onAccountDeleted={handleAccountDeleted} />
     }
 
-    return <AssignmentLogs API={API} addToast={addToast} />
+    return <AssignmentLogs API={API} addToast={addToast} refreshKey={ticketRefreshKey} />
   }
 
   // SLA breach count for notification
@@ -300,6 +311,9 @@ export default function App() {
                   <span>{user.name}</span>
                   <span style={{ color: 'var(--text-muted)' }}>{user.email}</span>
                 </div>
+                <button className="btn btn-secondary btn-sm" onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} title="Toggle Theme" style={{ padding: '0 8px' }}>
+                  {theme === 'light' ? <Moon size={14} /> : <Sun size={14} />}
+                </button>
                 <button className="btn btn-secondary btn-sm" onClick={() => setShowReportsModal(true)}>
                   <FileText size={12} />
                   Reports
@@ -369,6 +383,9 @@ export default function App() {
                   <span>{user.name}</span>
                   <span style={{ color: 'var(--text-muted)' }}>{user.email}</span>
                 </div>
+                <button className="btn btn-secondary btn-sm" onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} title="Toggle Theme" style={{ padding: '0 8px' }}>
+                  {theme === 'light' ? <Moon size={14} /> : <Sun size={14} />}
+                </button>
                 <button className="btn btn-secondary btn-sm" onClick={() => setShowReportsModal(true)}>
                   <FileText size={12} />
                   Reports
@@ -558,6 +575,9 @@ export default function App() {
             <button className="btn btn-secondary btn-sm" onClick={() => setShowReportsModal(true)} title="Closure Reports">
               <FileText size={12} />
               Reports
+            </button>
+            <button className="btn btn-secondary btn-sm" onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')} title="Toggle Theme" style={{ padding: '0 8px' }}>
+              {theme === 'light' ? <Moon size={14} /> : <Sun size={14} />}
             </button>
             <button className="btn btn-secondary btn-sm" onClick={fetchStats} title="Refresh data">
               <RefreshCw size={12} />

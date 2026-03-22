@@ -5,7 +5,7 @@ import { formatCategoryLabel, TICKET_CATEGORIES } from '../lib/taxonomy.js'
 
 const ALL_SKILLS = TICKET_CATEGORIES
 
-export default function Operators({ API, addToast, onRefresh }) {
+export default function Operators({ API, addToast, onRefresh, refreshKey }) {
   const [operators, setOperators] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -32,7 +32,7 @@ export default function Operators({ API, addToast, onRefresh }) {
 
   useEffect(() => {
     fetchOperators()
-  }, [fetchOperators])
+  }, [fetchOperators, refreshKey])
 
   const handleAddOperator = async () => {
     if (!form.name || !form.email || form.skills.length === 0) {
@@ -148,9 +148,6 @@ export default function Operators({ API, addToast, onRefresh }) {
           <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{operators.length} operators registered</p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <button className="btn btn-secondary btn-sm" onClick={fetchOperators}>
-            <RefreshCw size={12} /> Refresh
-          </button>
           <button className="btn btn-primary" onClick={() => setShowForm((current) => !current)}>
             <Plus size={14} /> Add Operator
           </button>
@@ -265,7 +262,11 @@ export default function Operators({ API, addToast, onRefresh }) {
                   </div>
 
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, fontSize: 14 }}>{operator.name}</div>
+                    <div style={{ fontWeight: 600, fontSize: 14 }}>
+                      {operator.display_id ? <span style={{ color: 'var(--accent)', marginRight: 6 }}>{operator.display_id}</span> : null}
+                      {operator.name}
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>{operator.email}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>{operator.email}</div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                       <StatusIcon size={10} color={statusColor[operator.status]} />

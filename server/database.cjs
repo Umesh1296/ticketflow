@@ -8,7 +8,8 @@ const {
   Ticket,
   AssignmentLog,
   Report,
-  SlaRule
+  SlaRule,
+  Counter
 } = require('./models.cjs')
 const { isSupportedCategory, normalizeCategory, normalizeSkills } = require('./taxonomy.cjs')
 
@@ -31,6 +32,29 @@ function initializeDatabase() {
           if (rules.length === 0) {
             await SlaRule.insertMany(DEFAULT_SLA_RULES)
             console.log('Inserted default SLA rules.')
+          }
+
+          // Backfill missing display_ids
+          const ticketsNoDisplayId = await Ticket.find({ display_id: { $exists: false } })
+          for (const t of ticketsNoDisplayId) {
+            const seqDoc = await Counter.findOneAndUpdate({ id: 'ticket_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
+            t.display_id = `#${String(seqDoc.seq).padStart(5, '0')}`
+            await t.save()
+          }
+          const empsNoDisplayId = await Employee.find({ display_id: { $exists: false } })
+          for (const e of empsNoDisplayId) {
+            const seqDoc = await Counter.findOneAndUpdate({ id: 'employee_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
+            e.display_id = `#EMP-${String(seqDoc.seq).padStart(3, '0')}`
+            await e.save()
+          }
+          const opsNoDisplayId = await Operator.find({ display_id: { $exists: false } })
+          for (const o of opsNoDisplayId) {
+            const seqDoc = await Counter.findOneAndUpdate({ id: 'operator_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
+            o.display_id = `#OP-${String(seqDoc.seq).padStart(3, '0')}`
+            await o.save()
+          }
+          if (ticketsNoDisplayId.length || empsNoDisplayId.length || opsNoDisplayId.length) {
+            console.log(`Backfilled IDs for ${ticketsNoDisplayId.length} tickets, ${empsNoDisplayId.length} employees, ${opsNoDisplayId.length} operators.`)
           }
         })
         .catch(err => console.error('❌ MongoDB Connection Error:', err))
@@ -60,17 +84,29 @@ function initializeDatabase() {
       return doc.toObject()
     },
     async insertEmployee(employee) { 
+      if (!employee.display_id) {
+        const seqDoc = await Counter.findOneAndUpdate({ id: 'employee_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
+        employee.display_id = `#EMP-${String(seqDoc.seq).padStart(3, '0')}`
+      }
       const doc = new Employee(employee)
       await doc.save()
       return doc.toObject()
     },
     async insertOperator(operator) { 
+      if (!operator.display_id) {
+        const seqDoc = await Counter.findOneAndUpdate({ id: 'operator_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
+        operator.display_id = `#OP-${String(seqDoc.seq).padStart(3, '0')}`
+      }
       const skills = normalizeSkills(operator.skills)
       const doc = new Operator({ ...operator, skills: skills.length ? skills : ['technical'] })
       await doc.save()
       return doc.toObject()
     },
     async insertTicket(ticket) { 
+      if (!ticket.display_id) {
+        const seqDoc = await Counter.findOneAndUpdate({ id: 'ticket_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
+        ticket.display_id = `#${String(seqDoc.seq).padStart(5, '0')}`
+      }
       const doc = new Ticket({ ...ticket, category: normalizeCategory(ticket.category) })
       await doc.save()
       return doc.toObject()

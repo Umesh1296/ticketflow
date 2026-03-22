@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
-import { CheckCircle, RefreshCw, RotateCcw, Search, Zap } from 'lucide-react'
+import { CheckCircle, RefreshCw, RotateCcw, Search, Zap, ShieldCheck } from 'lucide-react'
 import { getFriendlyErrorMessage } from '../lib/api.js'
 import SLACountdown from '../components/SLACountdown.jsx'
+import TicketDetailsModal from '../components/TicketDetailsModal.jsx'
 import { formatCategoryLabel, TICKET_CATEGORIES } from '../lib/taxonomy.js'
 
 const CATEGORIES = ['All', ...TICKET_CATEGORIES]
 const PRIORITIES = ['All', 'critical', 'high', 'medium', 'low']
 const STATUSES = ['All', 'open', 'assigned', 'in_progress', 'resolved', 'closed']
 
-export default function Tickets({ API, addToast, onRefresh }) {
+export default function Tickets({ API, addToast, onRefresh, refreshKey }) {
   const [tickets, setTickets] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState({ priority: 'All', status: 'All', category: 'All' })
   const [actionLoading, setActionLoading] = useState(null)
+  const [selectedTicket, setSelectedTicket] = useState(null)
 
   const fetchTickets = useCallback(async () => {
     try {
@@ -37,10 +39,10 @@ export default function Tickets({ API, addToast, onRefresh }) {
 
   useEffect(() => {
     fetchTickets()
-  }, [fetchTickets])
+  }, [fetchTickets, refreshKey])
 
   const filteredTickets = tickets.filter(
-    (ticket) => !search || ticket.title.toLowerCase().includes(search.toLowerCase()) || ticket.reporter_name?.toLowerCase().includes(search.toLowerCase()),
+    (ticket) => !search || ticket.title.toLowerCase().includes(search.toLowerCase()) || ticket.reporter_name?.toLowerCase().includes(search.toLowerCase()) || ticket.display_id?.toLowerCase().includes(search.toLowerCase()),
   )
 
   const updateStatus = async (id, status) => {
@@ -88,9 +90,6 @@ export default function Tickets({ API, addToast, onRefresh }) {
             {filteredTickets.length} ticket{filteredTickets.length !== 1 ? 's' : ''} shown
           </p>
         </div>
-        <button className="btn btn-secondary btn-sm" onClick={fetchTickets}>
-          <RefreshCw size={12} /> Refresh
-        </button>
       </div>
 
       <div className="card" style={{ padding: 16, marginBottom: 16 }}>
@@ -160,12 +159,12 @@ export default function Tickets({ API, addToast, onRefresh }) {
               {filteredTickets.map((ticket) => {
                 const sla = ticket.sla_status || {}
                 return (
-                  <tr key={ticket.id}>
+                  <tr key={ticket.id} onClick={() => setSelectedTicket(ticket)} style={{ cursor: 'pointer' }}>
                     <td><span className={`badge badge-${ticket.priority}`}>{ticket.priority}</span></td>
                     <td style={{ maxWidth: 280 }}>
                       <div style={{ fontWeight: 500, fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 2 }}>{ticket.title}</div>
                       <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-                        #{ticket.id.substring(0, 8).toUpperCase()} • by {ticket.reporter_name} - {new Date(ticket.created_at).toLocaleDateString()}
+                        {ticket.display_id || '#' + ticket.id.substring(0, 8).toUpperCase()} • by {ticket.reporter_name} - {new Date(ticket.created_at).toLocaleDateString()}
                       </div>
                     </td>
                     <td><span className="skill-tag">{formatCategoryLabel(ticket.category)}</span></td>
@@ -179,18 +178,23 @@ export default function Tickets({ API, addToast, onRefresh }) {
                     <td>
                       <div style={{ display: 'flex', gap: 4 }}>
                         {!['resolved', 'closed'].includes(ticket.status) && (
-                          <button className="btn btn-secondary btn-sm" onClick={() => updateStatus(ticket.id, 'resolved')} disabled={actionLoading === `${ticket.id}-resolved`} title="Mark as resolved">
+                          <button className="btn btn-secondary btn-sm" onClick={(e) => { e.stopPropagation(); updateStatus(ticket.id, 'resolved') }} disabled={actionLoading === `${ticket.id}-resolved`} title="Mark as resolved">
                             <CheckCircle size={11} />
                           </button>
                         )}
                         {ticket.status === 'assigned' && (
-                          <button className="btn btn-secondary btn-sm" onClick={() => updateStatus(ticket.id, 'in_progress')} disabled={actionLoading === `${ticket.id}-in_progress`} title="Mark in progress">
+                          <button className="btn btn-secondary btn-sm" onClick={(e) => { e.stopPropagation(); updateStatus(ticket.id, 'in_progress') }} disabled={actionLoading === `${ticket.id}-in_progress`} title="Mark in progress">
                             <Zap size={11} />
                           </button>
                         )}
                         {!['resolved', 'closed'].includes(ticket.status) && (
-                          <button className="btn btn-secondary btn-sm" onClick={() => reassign(ticket.id)} disabled={actionLoading === `${ticket.id}-reassign`} title="Auto-reassign">
+                          <button className="btn btn-secondary btn-sm" onClick={(e) => { e.stopPropagation(); reassign(ticket.id) }} disabled={actionLoading === `${ticket.id}-reassign`} title="Auto-reassign">
                             <RotateCcw size={11} />
+                          </button>
+                        )}
+                        {ticket.status !== 'closed' && (
+                          <button className="btn btn-secondary btn-sm" onClick={(e) => { e.stopPropagation(); updateStatus(ticket.id, 'closed') }} disabled={actionLoading === `${ticket.id}-closed`} title="Close ticket">
+                            <ShieldCheck size={11} />
                           </button>
                         )}
                       </div>
@@ -202,6 +206,10 @@ export default function Tickets({ API, addToast, onRefresh }) {
           </table>
         )}
       </div>
+
+      {selectedTicket && (
+        <TicketDetailsModal ticket={selectedTicket} onClose={() => setSelectedTicket(null)} />
+      )}
     </div>
   )
 }

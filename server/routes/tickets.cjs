@@ -73,6 +73,18 @@ module.exports = (store) => {
     }
   })
 
+  router.get('/reports', async (req, res) => {
+    try {
+      const allReports = await store.getReports()
+      const reports = allReports
+        .filter((report) => canAccessTicket(req.user, report.ticket))
+        .sort((left, right) => new Date(right.resolved_at) - new Date(left.resolved_at))
+      res.json({ success: true, data: reports })
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message })
+    }
+  })
+
   router.get('/:id', async (req, res) => {
     try {
       const ticket = await store.findTicketById(req.params.id)
@@ -191,11 +203,11 @@ module.exports = (store) => {
         }
 
         const { status } = req.body
-        if (!['in_progress', 'resolved'].includes(status)) {
-          return res.status(400).json({ success: false, error: 'Operators can mark tickets as in progress or resolved only' })
+        if (!['in_progress', 'resolved', 'closed'].includes(status)) {
+          return res.status(400).json({ success: false, error: 'Operators can mark tickets as in progress, resolved, or closed only' })
         }
 
-        if (status === 'resolved' && !['resolved', 'closed'].includes(ticket.status) && ticket.assigned_to) {
+        if ((status === 'resolved' || status === 'closed') && !['resolved', 'closed'].includes(ticket.status) && ticket.assigned_to) {
           resolvedAt = now
           await handleResolution(ticket, now)
         }
@@ -308,18 +320,6 @@ module.exports = (store) => {
       }))
 
       res.json({ success: true, data: logs })
-    } catch (err) {
-      res.status(500).json({ success: false, error: err.message })
-    }
-  })
-
-  router.get('/reports', async (req, res) => {
-    try {
-      const allReports = await store.getReports()
-      const reports = allReports
-        .filter((report) => canAccessTicket(req.user, report.ticket))
-        .sort((left, right) => new Date(right.resolved_at) - new Date(left.resolved_at))
-      res.json({ success: true, data: reports })
     } catch (err) {
       res.status(500).json({ success: false, error: err.message })
     }

@@ -3,6 +3,7 @@ import { ClipboardList, Plus, RefreshCw, Search, TicketCheck, UserRound } from '
 import { getFriendlyErrorMessage } from '../lib/api.js'
 import { formatCategoryLabel } from '../lib/taxonomy.js'
 import SLACountdown from '../components/SLACountdown.jsx'
+import TicketDetailsModal from '../components/TicketDetailsModal.jsx'
 
 const STATUS_FILTERS = ['all', 'open', 'assigned', 'in_progress', 'resolved', 'closed']
 
@@ -11,6 +12,7 @@ export default function EmployeeTickets({ API, addToast, currentUser, onCreateTi
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [selectedTicket, setSelectedTicket] = useState(null)
 
   const fetchTickets = useCallback(async () => {
     try {
@@ -38,6 +40,7 @@ export default function EmployeeTickets({ API, addToast, currentUser, onCreateTi
       const matchesSearch = !search
         || ticket.title.toLowerCase().includes(search.toLowerCase())
         || ticket.description.toLowerCase().includes(search.toLowerCase())
+        || ticket.display_id?.toLowerCase().includes(search.toLowerCase())
         || ticket.operator_name?.toLowerCase().includes(search.toLowerCase())
 
       return matchesStatus && matchesSearch
@@ -112,11 +115,6 @@ export default function EmployeeTickets({ API, addToast, currentUser, onCreateTi
               </option>
             ))}
           </select>
-
-          <button className="btn btn-secondary btn-sm" onClick={fetchTickets}>
-            <RefreshCw size={12} />
-            Refresh
-          </button>
         </div>
       </div>
 
@@ -141,11 +139,11 @@ export default function EmployeeTickets({ API, addToast, currentUser, onCreateTi
             const slaLabel = ticket.sla_status?.label || 'SLA pending'
 
             return (
-              <div key={ticket.id} className="card employee-ticket-card">
+              <div key={ticket.id} className="card employee-ticket-card" onClick={() => setSelectedTicket(ticket)} style={{ cursor: 'pointer' }}>
                 <div className="employee-ticket-top">
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 6 }}>{ticket.title}</div>
-                    <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>#{ticket.id.substring(0, 8).toUpperCase()} • {ticket.description}</div>
+                    <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>{ticket.display_id || '#' + ticket.id.substring(0, 8).toUpperCase()} • {ticket.description}</div>
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                     <span className={`badge badge-${ticket.priority}`}>{ticket.priority}</span>
@@ -168,6 +166,10 @@ export default function EmployeeTickets({ API, addToast, currentUser, onCreateTi
             )
           })}
         </div>
+      )}
+
+      {selectedTicket && (
+        <TicketDetailsModal ticket={selectedTicket} onClose={() => setSelectedTicket(null)} />
       )}
     </div>
   )

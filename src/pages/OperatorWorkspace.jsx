@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { BellRing, BriefcaseBusiness, CheckCircle2, Clock3, RefreshCw, UserRound, Wifi, WifiOff, Zap } from 'lucide-react'
+import { BellRing, BriefcaseBusiness, CheckCircle2, Clock3, RefreshCw, UserRound, Wifi, WifiOff, Zap, ShieldCheck } from 'lucide-react'
 import { getFriendlyErrorMessage } from '../lib/api.js'
 import { formatCategoryLabel } from '../lib/taxonomy.js'
 import SLACountdown from '../components/SLACountdown.jsx'
+import TicketDetailsModal from '../components/TicketDetailsModal.jsx'
 
 const STATUS_TRANSITIONS = {
   assigned: { next: 'in_progress', label: 'Start Work', icon: Zap },
   in_progress: { next: 'resolved', label: 'Mark Resolved', icon: CheckCircle2 },
+  resolved: { next: 'closed', label: 'Close Ticket', icon: ShieldCheck },
 }
 
 const OPERATOR_STATUS_OPTIONS = [
@@ -21,6 +23,7 @@ export default function OperatorWorkspace({ API, addToast, currentUser, refreshK
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState(null)
   const [highlightedTicketIds, setHighlightedTicketIds] = useState([])
+  const [selectedTicket, setSelectedTicket] = useState(null)
   const seenTicketIdsRef = useRef(new Set())
   const initializedRef = useRef(false)
 
@@ -182,10 +185,6 @@ export default function OperatorWorkspace({ API, addToast, currentUser, refreshK
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>My Tickets</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Auto-refresh every 20 seconds. New assignments are highlighted.</p>
         </div>
-        <button className="btn btn-secondary btn-sm" onClick={fetchWorkspace}>
-          <RefreshCw size={12} />
-          Refresh
-        </button>
       </div>
 
       {loading ? (
@@ -209,11 +208,11 @@ export default function OperatorWorkspace({ API, addToast, currentUser, refreshK
             const highlighted = highlightedTicketIds.includes(ticket.id)
 
             return (
-              <div key={ticket.id} className={`card operator-ticket-card ${highlighted ? 'ticket-highlight' : ''}`}>
+              <div key={ticket.id} className={`card operator-ticket-card ${highlighted ? 'ticket-highlight' : ''}`} onClick={() => setSelectedTicket(ticket)} style={{ cursor: 'pointer' }}>
                 <div className="employee-ticket-top">
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 6 }}>{ticket.title}</div>
-                    <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>#{ticket.id.substring(0, 8).toUpperCase()} • {ticket.description}</div>
+                    <div style={{ color: 'var(--text-secondary)', fontSize: 13 }}>{ticket.display_id || '#' + ticket.id.substring(0, 8).toUpperCase()} • {ticket.description}</div>
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                     <span className={`badge badge-${ticket.priority}`}>{ticket.priority}</span>
@@ -237,7 +236,7 @@ export default function OperatorWorkspace({ API, addToast, currentUser, refreshK
                   {transition ? (
                     <button
                       className="btn btn-primary"
-                      onClick={() => updateTicketStatus(ticket.id, transition.next)}
+                      onClick={(e) => { e.stopPropagation(); updateTicketStatus(ticket.id, transition.next) }}
                       disabled={actionLoading === `${ticket.id}-${transition.next}`}
                     >
                       {actionLoading === `${ticket.id}-${transition.next}`
@@ -255,6 +254,10 @@ export default function OperatorWorkspace({ API, addToast, currentUser, refreshK
             )
           })}
         </div>
+      )}
+
+      {selectedTicket && (
+        <TicketDetailsModal ticket={selectedTicket} onClose={() => setSelectedTicket(null)} />
       )}
     </div>
   )
