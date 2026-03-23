@@ -218,8 +218,8 @@ export default function App() {
     () => [
       { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
       { id: 'tickets', label: 'Tickets', icon: Ticket },
-      { id: 'employees', label: 'Employees', icon: UserRound },
-      { id: 'operators', label: 'Operators', icon: Users },
+      { id: 'employees', label: 'End Users', icon: UserRound },
+      { id: 'operators', label: 'Support Agents', icon: Users },
       { id: 'logs', label: 'Assignment Log', icon: Activity },
       { id: 'settings', label: 'Settings', icon: Settings },
     ],
@@ -302,7 +302,7 @@ export default function App() {
                 </div>
                 <div>
                   <div style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700 }}>TicketFlow</div>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Employee Portal</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>End User Portal</div>
                 </div>
               </div>
 
@@ -374,7 +374,7 @@ export default function App() {
                 </div>
                 <div>
                   <div style={{ fontFamily: 'var(--mono)', fontSize: 13, fontWeight: 700 }}>TicketFlow</div>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Operator Portal</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Support Agent Portal</div>
                 </div>
               </div>
 

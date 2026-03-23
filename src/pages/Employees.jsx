@@ -53,7 +53,7 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
       })
       setForm({ name: '', email: '', password: '' })
       setShowForm(false)
-      addToast(data.message || 'Employee created successfully', 'success')
+      addToast(data.message || 'End user created successfully', 'success')
       fetchEmployees()
     } catch (err) {
       if (err.response?.status === 401) {
@@ -101,7 +101,7 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
     setActionLoading(`delete-${employee.id}`)
     try {
       const { data } = await API.delete(`/employees/${employee.id}`)
-      addToast(data.message || 'Employee removed successfully', 'success')
+      addToast(data.message || 'End user removed successfully', 'success')
       setLastCredentials(null)
       fetchEmployees()
       onRefresh?.()
@@ -120,15 +120,15 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
     <div className="fade-in">
       <div className="section-header">
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Employees</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>End Users</h1>
           <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>
-            {employees.length} employee{employees.length !== 1 ? 's' : ''} available for ticket access
+            {employees.length} end user{employees.length !== 1 ? 's' : ''} registered
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button className="btn btn-primary" onClick={() => setShowForm((current) => !current)}>
             <Plus size={14} />
-            Add Employee
+            Add End User
           </button>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
             <KeyRound size={15} color="var(--accent)" />
             <h3 style={{ fontSize: 14, fontWeight: 600 }}>
-              {lastCredentials.mode === 'reset' ? 'Share The Updated Employee Login Details' : 'Share These Employee Login Details'}
+              {lastCredentials.mode === 'reset' ? 'Share The Updated End User Login Details' : 'Share These End User Login Details'}
             </h3>
           </div>
           <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 12 }}>{lastCredentials.name}</div>
@@ -157,7 +157,7 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
 
       {showForm && (
         <div className="card" style={{ padding: 20, marginBottom: 20 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 16, color: 'var(--accent)' }}>New Employee</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 16, color: 'var(--accent)' }}>New End User</h3>
           <div className="responsive-two-col" style={{ marginBottom: 16 }}>
             <div>
               <label>Full Name *</label>
@@ -176,7 +176,7 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
           <div style={{ display: 'flex', gap: 8 }}>
             <button className="btn btn-primary" onClick={handleAddEmployee} disabled={saving}>
               {saving ? <div className="spinner" style={{ width: 14, height: 14 }} /> : <Plus size={14} />}
-              {saving ? 'Creating...' : 'Create Employee'}
+              {saving ? 'Creating...' : 'Create End User'}
             </button>
             <button className="btn btn-secondary" onClick={() => setShowForm(false)}>Cancel</button>
           </div>
@@ -218,7 +218,7 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
                     </span>
                     <span className="employee-meta-chip">
                       <UserRound size={12} />
-                      Added {new Date(employee.created_at).toLocaleDateString()}
+                      Added {employee.created_at ? new Date(employee.created_at).toLocaleDateString() : 'N/A'}
                     </span>
                   </div>
                 </div>

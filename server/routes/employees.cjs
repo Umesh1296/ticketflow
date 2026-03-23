@@ -28,11 +28,12 @@ async function serializeEmployee(store, employee) {
   const stats = await getEmployeeTicketStats(store, employee)
   return {
     id: employee.id,
+    display_id: employee.display_id || null,
     name: employee.name,
     email: employee.email,
     role: employee.role,
     provider: employee.provider || 'local',
-    created_at: employee.created_at,
+    created_at: employee.created_at || null,
     ...stats,
   }
 }
@@ -89,16 +90,23 @@ module.exports = (store) => {
       const employee = await store.findEmployeeById(user.id)
       const serialized = await serializeEmployee(store, employee)
 
+      // Build display-id-based password
+      const idBasedPassword = employee.display_id ? `Enduser@${employee.display_id}` : resolvedPassword
+      // Re-hash with the ID-based password if we used the default
+      if (!String(password || '').trim() && employee.display_id) {
+        await store.updateEmployee(employee.id, { password_hash: hashPassword(idBasedPassword) })
+      }
+
       res.status(201).json({
         success: true,
         data: {
           employee: serialized,
           credentials: {
             email: employee.email,
-            password: resolvedPassword,
+            password: !String(password || '').trim() && employee.display_id ? idBasedPassword : resolvedPassword,
           },
         },
-        message: `Employee ${employee.name} added successfully`,
+        message: `End user ${employee.name} added successfully`,
       })
     } catch (err) {
       res.status(500).json({ success: false, error: err.message })
@@ -116,7 +124,9 @@ module.exports = (store) => {
         return res.status(404).json({ success: false, error: 'Employee not found' })
       }
 
-      const resolvedPassword = String(req.body?.password || '').trim() || DEFAULT_EMPLOYEE_PASSWORD
+      // Use ID-based default password if no custom password provided
+      const customPassword = String(req.body?.password || '').trim()
+      const resolvedPassword = customPassword || (employee.display_id ? `Enduser@${employee.display_id}` : DEFAULT_EMPLOYEE_PASSWORD)
       if (resolvedPassword.length < 8) {
         return res.status(400).json({ success: false, error: 'Password must be at least 8 characters long' })
       }

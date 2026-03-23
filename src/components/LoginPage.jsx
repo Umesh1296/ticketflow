@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, UserRound, Wrench } from 'lucide-react'
+import { Eye, EyeOff, Headset, LockKeyhole, Mail, ShieldCheck, UserRound, Wrench } from 'lucide-react'
 import { getFriendlyErrorMessage } from '../lib/api.js'
 
-const ROLE_OPTIONS = [
-  { id: 'manager', label: 'Manager Login', helper: 'Full dashboard and team oversight' },
-  { id: 'employee', label: 'Employee Login', helper: 'Use manager-shared credentials' },
-  { id: 'operator', label: 'Operator Login', helper: 'Use manager-shared credentials' },
+const ROLE_CARDS = [
+  { id: 'manager', label: 'Admin', icon: ShieldCheck, color: 'var(--accent)', bg: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' },
+  { id: 'employee', label: 'End User', icon: UserRound, color: 'var(--blue)', bg: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' },
+  { id: 'operator', label: 'Support Agent', icon: Headset, color: 'var(--green)', bg: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' },
 ]
 
 function getPreferredMode(role, authConfig) {
@@ -24,9 +24,11 @@ function getPreferredMode(role, authConfig) {
   return 'login'
 }
 
+const ROLE_DISPLAY = { manager: 'Admin', employee: 'End User', operator: 'Support Agent' }
+
 export default function LoginPage({ API, addToast, authConfig, onGoogleLogin, onLogin, onRegister }) {
-  const [selectedRole, setSelectedRole] = useState('manager')
-  const [mode, setMode] = useState(() => getPreferredMode('manager', authConfig))
+  const [selectedRole, setSelectedRole] = useState(null)
+  const [mode, setMode] = useState('login')
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -41,12 +43,12 @@ export default function LoginPage({ API, addToast, authConfig, onGoogleLogin, on
   const [googleBusy, setGoogleBusy] = useState(false)
   const googleButtonRef = useRef(null)
 
-  const operatorSelected = selectedRole === 'operator'
   const selfRegistrationRoles = authConfig.localRegistrationRoles || ['manager']
   const googleAuthRoles = authConfig.googleAuthRoles || ['manager']
-  const registrationAllowed = selfRegistrationRoles.includes(selectedRole)
-  const googleAllowed = googleAuthRoles.includes(selectedRole)
+  const registrationAllowed = selectedRole ? selfRegistrationRoles.includes(selectedRole) : false
+  const googleAllowed = selectedRole ? googleAuthRoles.includes(selectedRole) : false
   const googleEnabled = Boolean(authConfig.googleEnabled && authConfig.googleClientId && googleAllowed)
+
   const modeTitle = useMemo(
     () => {
       if (mode === 'forgot-password') return 'Reset Password'
@@ -57,6 +59,7 @@ export default function LoginPage({ API, addToast, authConfig, onGoogleLogin, on
   )
 
   useEffect(() => {
+    if (!selectedRole) return
     if (mode === 'forgot-password' || mode === 'verify-otp') return
     setMode(getPreferredMode(selectedRole, authConfig))
   }, [authConfig, selectedRole, mode])
@@ -178,39 +181,91 @@ export default function LoginPage({ API, addToast, authConfig, onGoogleLogin, on
     }
   }
 
-  const currentRoleInfo = ROLE_OPTIONS.find((role) => role.id === selectedRole)
+  const displayLabel = ROLE_DISPLAY[selectedRole] || ''
 
+  // ========== CARD SELECTION VIEW ==========
+  if (!selectedRole) {
+    return (
+      <div className="auth-shell">
+        <div className="auth-panel" style={{ maxWidth: 700 }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <div className="auth-badge" style={{ justifyContent: 'center' }}>
+              <ShieldCheck size={14} />
+              Secure Access
+            </div>
+            <h1 style={{ fontSize: 34, lineHeight: 1.1, marginBottom: 10 }}>Welcome to TicketFlow</h1>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 15 }}>Select your portal to continue</p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            {ROLE_CARDS.map((card) => {
+              const Icon = card.icon
+              return (
+                <button
+                  key={card.id}
+                  onClick={() => {
+                    setSelectedRole(card.id)
+                    setMode(getPreferredMode(card.id, authConfig))
+                    setError('')
+                    setForm({ name: '', email: '', password: '', confirmPassword: '' })
+                  }}
+                  style={{
+                    background: card.bg,
+                    border: 'none',
+                    borderRadius: 14,
+                    padding: '28px 16px 22px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 14,
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    color: '#fff',
+                    textAlign: 'left',
+                  }}
+                  className="login-role-card"
+                >
+                  <div style={{ width: 42, height: 42, borderRadius: 10, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon size={20} color="#fff" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 2 }}>{card.label}</div>
+                    <div style={{ fontSize: 11, opacity: 0.85 }}>Portal</div>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 28 }}>
+            <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>© {new Date().getFullYear()} TicketFlow. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ========== LOGIN FORM VIEW ==========
   return (
     <div className="auth-shell">
       <div className="auth-panel">
         <div>
+          <button
+            onClick={() => { setSelectedRole(null); setError('') }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4, marginBottom: 16, padding: 0 }}
+          >
+            ← Back to portal selection
+          </button>
           <div className="auth-badge">
             <ShieldCheck size={14} />
-            Role Based Access
+            {displayLabel} Portal
           </div>
-          <h1 style={{ fontSize: 38, lineHeight: 1.1, marginBottom: 14 }}>Choose how you want to sign in</h1>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: 500, fontSize: 15 }}>
-            Employees can raise and track tickets, operators can manage assigned work, and managers can oversee the full dashboard, employee access, operator team, and assignment logs.
-          </p>
+          <h1 style={{ fontSize: 32, lineHeight: 1.1, marginBottom: 10 }}>{displayLabel} {modeTitle}</h1>
         </div>
 
         <div className="card auth-card">
           <div style={{ marginBottom: 20 }}>
-            <div className="role-tabs role-tabs-three">
-              {ROLE_OPTIONS.map((role) => (
-                <button
-                  key={role.id}
-                  className={`role-tab ${selectedRole === role.id ? 'active' : ''}`}
-                  type="button"
-                  onClick={() => setSelectedRole(role.id)}
-                >
-                  <span>{role.label}</span>
-                  <span className="role-tab-helper">{role.helper}</span>
-                </button>
-              ))}
-            </div>
-
-            {registrationAllowed ? (
+            {registrationAllowed && (mode === 'login' || mode === 'register') ? (
               <div className="auth-tabs">
                 <button className={`auth-tab ${mode === 'login' ? 'active' : ''}`} onClick={() => setMode('login')} type="button">
                   Login
@@ -219,31 +274,7 @@ export default function LoginPage({ API, addToast, authConfig, onGoogleLogin, on
                   Create Account
                 </button>
               </div>
-            ) : (
-              <div className="operator-login-note">
-                <Wrench size={14} />
-                {selectedRole === 'manager'
-                  ? 'Manager access is restricted to approved administrator accounts. Public sign-up is disabled after the first setup.'
-                  : selectedRole === 'employee'
-                    ? 'Employee accounts are created by a manager and shared directly with the employee.'
-                    : 'Operator accounts are created by a manager and shared directly with the operator.'}
-              </div>
-            )}
-
-            <h2 style={{ fontSize: 20, marginBottom: 6 }}>{currentRoleInfo?.label} - {modeTitle}</h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>
-              {mode === 'forgot-password'
-                ? 'Enter your email to receive a 6-digit OTP to reset your password.'
-                : mode === 'verify-otp'
-                  ? 'Check your email (or console) for the OTP and enter your new password.'
-                  : operatorSelected
-                    ? 'Use the email and password shared by your manager to open your assigned-work dashboard.'
-                    : selectedRole === 'employee'
-                      ? 'Use the email and password shared by your manager to access ticket raising and status tracking.'
-                    : mode === 'login'
-                      ? 'Use your approved manager account to continue.'
-                      : 'Create the first manager account to bootstrap the workspace.'}
-            </p>
+            ) : null}
           </div>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -333,7 +364,7 @@ export default function LoginPage({ API, addToast, authConfig, onGoogleLogin, on
             <button className="btn btn-primary" type="submit" disabled={loading} style={{ justifyContent: 'center', marginTop: 4 }}>
               {loading
                 ? <><div className="spinner" style={{ width: 14, height: 14 }} /> {mode === 'login' ? 'Signing in...' : mode === 'forgot-password' ? 'Sending OTP...' : mode === 'verify-otp' ? 'Verifying...' : 'Creating account...'}</>
-                : mode === 'login' ? `Login as ${selectedRole}` : mode === 'forgot-password' ? 'Send OTP' : mode === 'verify-otp' ? 'Reset Password' : `Create ${selectedRole} account`}
+                : mode === 'login' ? `Login as ${displayLabel}` : mode === 'forgot-password' ? 'Send OTP' : mode === 'verify-otp' ? 'Reset Password' : `Create ${displayLabel} account`}
             </button>
             
             {(mode === 'forgot-password' || mode === 'verify-otp') && (
@@ -350,9 +381,6 @@ export default function LoginPage({ API, addToast, authConfig, onGoogleLogin, on
               {googleEnabled ? (
                 <div>
                   <div ref={googleButtonRef} className={googleBusy ? 'google-button-disabled' : ''} />
-                  <p style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 10 }}>
-                    Continue with Google using an approved manager email.
-                  </p>
                 </div>
               ) : (
                 <div className="google-unavailable">

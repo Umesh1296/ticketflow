@@ -126,12 +126,9 @@ export default function OperatorWorkspace({ API, addToast, currentUser, refreshK
         <div>
           <div className="auth-badge" style={{ marginBottom: 14 }}>
             <BriefcaseBusiness size={14} />
-            Operator Workspace
+            Support Agent Workspace
           </div>
           <h1 style={{ fontSize: 28, lineHeight: 1.1, marginBottom: 10 }}>Review and manage your assigned work</h1>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: 620 }}>
-            This workspace shows only the tickets assigned to you. You can start work, mark issues as resolved, and update your availability from here.
-          </p>
         </div>
 
         <div className="operator-hero-side">
@@ -183,7 +180,7 @@ export default function OperatorWorkspace({ API, addToast, currentUser, refreshK
       <div className="section-header">
         <div>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>My Tickets</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Auto-refresh every 20 seconds. New assignments are highlighted.</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Assigned to you</p>
         </div>
       </div>
 

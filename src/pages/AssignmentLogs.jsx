@@ -50,28 +50,6 @@ export default function AssignmentLogs({ API, addToast, refreshKey }) {
       <div className="section-header">
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Assignment Log</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>
-            Full history of each auto-assignment decision made by the algorithm.
-          </p>
-        </div>
-      </div>
-
-      <div className="card" style={{ padding: 20, marginBottom: 20, borderLeft: '3px solid var(--accent)' }}>
-        <h3 style={{ fontSize: 13, fontWeight: 600, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Zap size={14} color="var(--accent)" />
-          How Auto-Assignment Works
-        </h3>
-        <div className="responsive-three-col">
-          {[
-            { label: 'Skill Match', desc: 'Up to 50 points. Checks how closely the operator skill set matches the ticket category.', color: 'var(--accent)' },
-            { label: 'Load Balance', desc: 'Up to 30 points. Operators with fewer active tickets score higher.', color: 'var(--blue)' },
-            { label: 'Availability', desc: 'Up to 20 points. Available operators score higher than busy ones.', color: 'var(--green)' },
-          ].map((factor) => (
-            <div key={factor.label} style={{ background: 'var(--bg-secondary)', borderRadius: 6, padding: 12 }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: 11, color: factor.color, marginBottom: 4, fontWeight: 700 }}>{factor.label}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{factor.desc}</div>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -84,7 +62,7 @@ export default function AssignmentLogs({ API, addToast, refreshKey }) {
         ) : logs.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--text-muted)' }}>
             <Activity size={32} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
-            <div>No assignment logs yet. Create and assign tickets to see the algorithm in action.</div>
+            <div>No assignment logs yet.</div>
           </div>
         ) : (
           <table className="data-table">

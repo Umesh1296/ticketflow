@@ -44,7 +44,7 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
     try {
       const { data } = await API.post('/operators', form)
       const credentials = data.data?.credentials || null
-      addToast(`Operator ${form.name} added`, 'success')
+      addToast(`Agent ${form.name} added`, 'success')
       setLastCredentials(credentials)
       setForm({ name: '', email: '', password: '', skills: [], max_load: 5, status: 'available' })
       setShowForm(false)
@@ -92,7 +92,7 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
     setActionLoading(`delete-${operator.id}`)
     try {
       const { data } = await API.delete(`/operators/${operator.id}`)
-      addToast(data.message || 'Operator removed successfully', 'success')
+      addToast(data.message || 'Agent removed successfully', 'success')
       setLastCredentials(null)
       fetchOperators()
       onRefresh()
@@ -144,12 +144,12 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
     <div className="fade-in">
       <div className="section-header">
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Operators</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{operators.length} operators registered</p>
+          <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Support Agents</h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>{operators.length} agents registered</p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button className="btn btn-primary" onClick={() => setShowForm((current) => !current)}>
-            <Plus size={14} /> Add Operator
+            <Plus size={14} /> Add Agent
           </button>
         </div>
       </div>
@@ -159,7 +159,7 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
             <KeyRound size={15} color="var(--accent)" />
             <h3 style={{ fontSize: 14, fontWeight: 600 }}>
-              {lastCredentials.mode === 'reset' ? 'Share The Updated Operator Login Details' : 'Share These Operator Login Details'}
+              {lastCredentials.mode === 'reset' ? 'Share The Updated Agent Login Details' : 'Share These Agent Login Details'}
             </h3>
           </div>
           {lastCredentials.name && <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 12 }}>{lastCredentials.name}</div>}
@@ -178,7 +178,7 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
 
       {showForm && (
         <div className="card" style={{ padding: 20, marginBottom: 20 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 16, color: 'var(--accent)' }}>New Operator</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 16, color: 'var(--accent)' }}>New Support Agent</h3>
           <div className="responsive-two-col" style={{ marginBottom: 12 }}>
             <div>
               <label>Full Name *</label>
@@ -235,7 +235,7 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
           <div style={{ display: 'flex', gap: 8 }}>
             <button className="btn btn-primary" onClick={handleAddOperator} disabled={saving}>
               {saving ? <div className="spinner" style={{ width: 14, height: 14 }} /> : <Plus size={14} />}
-              {saving ? 'Adding...' : 'Add Operator'}
+              {saving ? 'Adding...' : 'Add Agent'}
             </button>
             <button className="btn btn-secondary" onClick={() => setShowForm(false)}>Cancel</button>
           </div>
@@ -266,7 +266,6 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
                       {operator.display_id ? <span style={{ color: 'var(--accent)', marginRight: 6 }}>{operator.display_id}</span> : null}
                       {operator.name}
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>{operator.email}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>{operator.email}</div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                       <StatusIcon size={10} color={statusColor[operator.status]} />

@@ -140,7 +140,7 @@ export default function Tickets({ API, addToast, onRefresh, refreshKey }) {
         ) : filteredTickets.length === 0 ? (
           <div style={{ padding: 60, textAlign: 'center', color: 'var(--text-muted)' }}>
             <div style={{ fontSize: 18, marginBottom: 8 }}>No tickets found</div>
-            Employees have not raised any tickets yet.
+            No tickets found.
           </div>
         ) : (
           <table className="data-table">

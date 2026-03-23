@@ -37,7 +37,7 @@ export default function Dashboard({ stats }) {
     { label: 'In Progress', value: overview.in_progress_tickets + overview.assigned_tickets, icon: Activity, color: 'purple', sub: 'Active work' },
     { label: 'Resolved', value: overview.resolved_tickets, icon: CheckCircle, color: 'green', sub: 'Completed' },
     { label: 'SLA Compliance', value: `${sla.compliance_rate}%`, icon: TrendingUp, color: sla.compliance_rate >= 90 ? 'green' : 'red', sub: `${sla.breached} breached` },
-    { label: 'Operators Online', value: operators?.available || 0, icon: Users, color: 'blue', sub: `${operators?.busy || 0} busy` },
+    { label: 'Agents Online', value: operators?.available || 0, icon: Users, color: 'blue', sub: `${operators?.busy || 0} busy` },
   ]
 
   const priorityData = ['critical', 'high', 'medium', 'low'].map((priority) => ({
@@ -51,7 +51,6 @@ export default function Dashboard({ stats }) {
       <div className="section-header">
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Operations Dashboard</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Real-time overview. Auto-refreshes every 30 seconds.</p>
         </div>
       </div>
 
@@ -169,7 +168,7 @@ export default function Dashboard({ stats }) {
                 <span className={`badge badge-${log.priority}`}>{log.priority}</span>
               </div>
             ))}
-            {!recentActivity?.length && <div style={{ padding: 30, textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>No assignments yet. Employees can raise the first ticket anytime.</div>}
+            {!recentActivity?.length && <div style={{ padding: 30, textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>No assignments yet.</div>}
           </div>
         </div>
       </div>
@@ -186,7 +185,7 @@ export default function Dashboard({ stats }) {
                 <tr>
                   <th>Ticket</th>
                   <th>Reporter</th>
-                  <th>Assigned Operator</th>
+                  <th>Assigned Agent</th>
                   <th>Status</th>
                   <th>Priority</th>
                 </tr>
@@ -204,7 +203,7 @@ export default function Dashboard({ stats }) {
                     </td>
                     <td>
                       <div style={{ fontSize: 12, color: 'var(--accent-light)', fontWeight: 600 }}>{ticket.operator_name}</div>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{ticket.operator_email || 'Operator contact unavailable'}</div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{ticket.operator_email || 'Agent contact unavailable'}</div>
                     </td>
                     <td><span className={`badge badge-${ticket.status}`}>{ticket.status.replace('_', ' ')}</span></td>
                     <td><span className={`badge badge-${ticket.priority}`}>{ticket.priority}</span></td>
@@ -223,7 +222,7 @@ export default function Dashboard({ stats }) {
       {!!top_operators?.length && (
         <div className="card" style={{ marginTop: 16 }}>
           <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 13, fontWeight: 600 }}>Top Operators by Resolved Tickets</h3>
+            <h3 style={{ fontSize: 13, fontWeight: 600 }}>Top Support Agents by Resolved Tickets</h3>
           </div>
           <div className="top-operator-grid">
             {top_operators.slice(0, 5).map((operator, index) => (

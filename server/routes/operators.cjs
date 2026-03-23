@@ -124,16 +124,25 @@ module.exports = (store) => {
 
       await store.insertOperator(operator)
 
+      // Build display-id-based password
+      const savedOp = await store.findOperatorById(operator.id)
+      const displayId = savedOp?.display_id || operator.display_id
+      const idBasedPassword = displayId ? `Agent@${displayId}` : resolvedPassword
+      // Re-hash with the ID-based password if we used the default
+      if (!String(password || '').trim() && displayId) {
+        await store.updateOperator(operator.id, { password_hash: hashPassword(idBasedPassword) })
+      }
+
       res.status(201).json({
         success: true,
         data: {
-          operator: serializeOperator(operator),
+          operator: serializeOperator(savedOp || operator),
           credentials: {
             email: operator.email,
-            password: resolvedPassword,
+            password: !String(password || '').trim() && displayId ? idBasedPassword : resolvedPassword,
           },
         },
-        message: `Operator ${name} added successfully`,
+        message: `Agent ${name} added successfully`,
       })
     } catch (err) {
       res.status(500).json({ success: false, error: err.message })
@@ -199,7 +208,9 @@ module.exports = (store) => {
         return res.status(404).json({ success: false, error: 'Operator not found' })
       }
 
-      const resolvedPassword = String(req.body?.password || '').trim() || DEFAULT_OPERATOR_PASSWORD
+      // Use ID-based default password if no custom password provided
+      const customPassword = String(req.body?.password || '').trim()
+      const resolvedPassword = customPassword || (operator.display_id ? `Agent@${operator.display_id}` : DEFAULT_OPERATOR_PASSWORD)
       if (resolvedPassword.length < 8) {
         return res.status(400).json({ success: false, error: 'Password must be at least 8 characters long' })
       }

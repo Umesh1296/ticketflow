@@ -15,14 +15,14 @@ export default function ManagerSettings({ API, addToast, user, onAccountDeleted 
     setDeleting(true)
     try {
       const { data } = await API.delete('/auth/manager')
-      addToast(data.message || 'Manager account deleted. A new manager can now sign up.', 'success')
+      addToast(data.message || 'Admin account deleted. A new admin can now sign up.', 'success')
       onAccountDeleted()
     } catch (err) {
       if (err.response?.status === 401) {
         return
       }
 
-      addToast(getFriendlyErrorMessage(err, 'Failed to delete manager account'), 'error')
+      addToast(getFriendlyErrorMessage(err, 'Failed to delete admin account'), 'error')
     } finally {
       setDeleting(false)
     }
@@ -33,7 +33,6 @@ export default function ManagerSettings({ API, addToast, user, onAccountDeleted 
       <div className="section-header">
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Settings</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: 13 }}>Manage your manager account and system preferences</p>
         </div>
       </div>
 
@@ -60,7 +59,7 @@ export default function ManagerSettings({ API, addToast, user, onAccountDeleted 
           </div>
           <div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Role</div>
-            <span className="badge badge-assigned" style={{ textTransform: 'capitalize' }}>{user?.role || 'manager'}</span>
+            <span className="badge badge-assigned" style={{ textTransform: 'capitalize' }}>{user?.role === 'manager' ? 'Admin' : (user?.role || 'admin')}</span>
           </div>
           <div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Provider</div>
@@ -76,15 +75,12 @@ export default function ManagerSettings({ API, addToast, user, onAccountDeleted 
         </div>
 
         <div style={{ marginBottom: 18 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Delete Manager Account</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Delete Admin Account</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: 13, marginBottom: 6 }}>
-            This will permanently delete your manager login credentials. All existing tickets, employees, and operators will remain intact.
-          </p>
-          <p style={{ color: 'var(--text-secondary)', fontSize: 13, marginBottom: 6 }}>
-            After deletion, the login page will re-enable the "Create Account" option so a new manager can sign up.
+            This will permanently delete your admin login credentials. All existing data will remain intact.
           </p>
           <p style={{ color: 'var(--red)', fontSize: 12, fontWeight: 500 }}>
-            ⚠ This action cannot be undone. You will be immediately signed out.
+            ⚠ This action cannot be undone.
           </p>
         </div>
 
@@ -114,7 +110,7 @@ export default function ManagerSettings({ API, addToast, user, onAccountDeleted 
             {deleting ? (
               <><div className="spinner" style={{ width: 14, height: 14 }} /> Deleting...</>
             ) : (
-              <><Trash2 size={14} /> Delete Manager Account</>
+              <><Trash2 size={14} /> Delete Admin Account</>
             )}
           </button>
         </div>

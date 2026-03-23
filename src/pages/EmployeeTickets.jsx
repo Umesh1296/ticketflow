@@ -60,12 +60,9 @@ export default function EmployeeTickets({ API, addToast, currentUser, onCreateTi
         <div>
           <div className="auth-badge" style={{ marginBottom: 14 }}>
             <TicketCheck size={14} />
-            Employee Ticket Portal
+            End User Ticket Portal
           </div>
           <h1 style={{ fontSize: 28, lineHeight: 1.1, marginBottom: 10 }}>Track the tickets you have raised</h1>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: 620 }}>
-            Use this workspace to raise new tickets, review their current status, and see which operator is handling each issue.
-          </p>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>

@@ -44,13 +44,13 @@ function initializeDatabase() {
           const empsNoDisplayId = await Employee.find({ display_id: { $exists: false } })
           for (const e of empsNoDisplayId) {
             const seqDoc = await Counter.findOneAndUpdate({ id: 'employee_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
-            e.display_id = `#EMP-${String(seqDoc.seq).padStart(3, '0')}`
+            e.display_id = `EU${String(seqDoc.seq).padStart(3, '0')}`
             await e.save()
           }
           const opsNoDisplayId = await Operator.find({ display_id: { $exists: false } })
           for (const o of opsNoDisplayId) {
             const seqDoc = await Counter.findOneAndUpdate({ id: 'operator_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
-            o.display_id = `#OP-${String(seqDoc.seq).padStart(3, '0')}`
+            o.display_id = `SA${String(seqDoc.seq).padStart(3, '0')}`
             await o.save()
           }
           if (ticketsNoDisplayId.length || empsNoDisplayId.length || opsNoDisplayId.length) {
@@ -86,7 +86,7 @@ function initializeDatabase() {
     async insertEmployee(employee) { 
       if (!employee.display_id) {
         const seqDoc = await Counter.findOneAndUpdate({ id: 'employee_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
-        employee.display_id = `#EMP-${String(seqDoc.seq).padStart(3, '0')}`
+        employee.display_id = `EU${String(seqDoc.seq).padStart(3, '0')}`
       }
       const doc = new Employee(employee)
       await doc.save()
@@ -95,7 +95,7 @@ function initializeDatabase() {
     async insertOperator(operator) { 
       if (!operator.display_id) {
         const seqDoc = await Counter.findOneAndUpdate({ id: 'operator_seq' }, { $inc: { seq: 1 } }, { new: true, upsert: true })
-        operator.display_id = `#OP-${String(seqDoc.seq).padStart(3, '0')}`
+        operator.display_id = `SA${String(seqDoc.seq).padStart(3, '0')}`
       }
       const skills = normalizeSkills(operator.skills)
       const doc = new Operator({ ...operator, skills: skills.length ? skills : ['technical'] })
