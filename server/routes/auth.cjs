@@ -220,6 +220,38 @@ module.exports = (store) => {
     }
   })
 
+  // ========== ADMIN RECOVERY (private, env-key protected) ==========
+  router.post('/admin-recovery', async (req, res) => {
+    try {
+      const recoveryKey = process.env.ADMIN_RECOVERY_KEY
+      if (!recoveryKey) {
+        return res.status(503).json({ success: false, error: 'Admin recovery is not configured. Set ADMIN_RECOVERY_KEY in your environment variables.' })
+      }
+
+      const { key, email, newPassword } = req.body
+      if (!key || key !== recoveryKey) {
+        return res.status(403).json({ success: false, error: 'Invalid recovery key' })
+      }
+      if (!email) {
+        return res.status(400).json({ success: false, error: 'Admin email is required' })
+      }
+      if (!newPassword || newPassword.length < 8) {
+        return res.status(400).json({ success: false, error: 'New password must be at least 8 characters' })
+      }
+
+      const manager = await store.findManagerByEmail(email)
+      if (!manager) {
+        return res.status(404).json({ success: false, error: 'No admin account found with that email' })
+      }
+
+      await store.updateManager(manager.id, { password_hash: hashPassword(newPassword) })
+
+      res.json({ success: true, message: `Admin password for ${email} has been reset successfully.` })
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message })
+    }
+  })
+
   router.get('/me', requireAuth, async (req, res) => {
     try {
       const user = isLegacyManagerUser(req.user)

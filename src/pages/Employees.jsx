@@ -192,8 +192,8 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
         <div className="card employee-empty-state">
           <Users size={30} style={{ opacity: 0.45 }} />
           <div>
-            <div style={{ fontSize: 18, marginBottom: 6 }}>No employees added yet</div>
-            <div style={{ color: 'var(--text-muted)' }}>Create an employee account here and share the login credentials directly.</div>
+            <div style={{ fontSize: 18, marginBottom: 6 }}>No end users added yet</div>
+            <div style={{ color: 'var(--text-muted)' }}>Create an end user account and share the login credentials.</div>
           </div>
         </div>
       ) : (
@@ -210,58 +210,55 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
                     {employee.display_id ? <span style={{ color: 'var(--accent)', marginRight: 6 }}>{employee.display_id}</span> : null}
                     {employee.name}
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 6 }}>{employee.email}</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    <span className="employee-meta-chip">
-                      <ShieldCheck size={12} />
-                      {employee.provider === 'local' ? 'Local credentials' : employee.provider}
-                    </span>
-                    <span className="employee-meta-chip">
-                      <UserRound size={12} />
-                      Added {employee.created_at ? new Date(employee.created_at).toLocaleDateString() : 'N/A'}
-                    </span>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>{employee.email}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <ShieldCheck size={10} color="var(--green)" />
+                    <span style={{ fontSize: 11, color: 'var(--green)', fontWeight: 600 }}>{employee.provider === 'local' ? 'Local' : employee.provider}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="responsive-three-col" style={{ marginBottom: 16 }}>
-                <div className="card" style={{ padding: 14, background: 'var(--bg-secondary)' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>Tickets Raised</div>
-                  <div style={{ fontFamily: 'var(--mono)', fontSize: 20, fontWeight: 700 }}>{employee.total_tickets}</div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Tickets</span>
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--text-secondary)' }}>
+                    {employee.total_tickets} total
+                  </span>
                 </div>
-                <div className="card" style={{ padding: 14, background: 'var(--bg-secondary)' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <Clock3 size={12} />
-                    Active
-                  </div>
-                  <div style={{ fontFamily: 'var(--mono)', fontSize: 20, fontWeight: 700, color: 'var(--accent)' }}>{employee.active_tickets}</div>
+                <div style={{ display: 'flex', gap: 3 }}>
+                  {Array.from({ length: Math.max(employee.total_tickets, 1) }).slice(0, 10).map((_, index) => (
+                    <div key={index} style={{ flex: 1, height: 10, borderRadius: 2, background: index < employee.active_tickets ? 'var(--amber)' : index < employee.active_tickets + employee.resolved_tickets ? 'var(--green)' : 'var(--border)' }} />
+                  ))}
+                  {employee.total_tickets > 10 && <span style={{ fontSize: 10, color: 'var(--text-muted)', alignSelf: 'center', marginLeft: 4 }}>+{employee.total_tickets - 10}</span>}
                 </div>
-                <div className="card" style={{ padding: 14, background: 'var(--bg-secondary)' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <CheckCircle2 size={12} />
-                    Resolved
-                  </div>
-                  <div style={{ fontFamily: 'var(--mono)', fontSize: 20, fontWeight: 700, color: 'var(--green)' }}>{employee.resolved_tickets}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4 }}>
+                  {employee.active_tickets} active · {employee.resolved_tickets} resolved
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+              <div>
+                <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Activity</div>
                 <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
                   {employee.last_ticket_at
-                    ? `Last ticket created on ${new Date(employee.last_ticket_at).toLocaleDateString()}`
+                    ? `Last ticket on ${new Date(employee.last_ticket_at).toLocaleDateString()}`
                     : 'No tickets raised yet'}
                 </div>
+                {employee.created_at && (
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>
+                    Joined {new Date(employee.created_at).toLocaleDateString()}
+                  </div>
+                )}
+              </div>
 
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <button className="btn btn-secondary btn-sm" onClick={() => resetPassword(employee)} disabled={actionLoading === `reset-${employee.id}`}>
-                    {actionLoading === `reset-${employee.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <KeyRound size={12} />}
-                    Reset Password
-                  </button>
-                  <button className="btn btn-secondary btn-sm" onClick={() => deleteEmployee(employee)} disabled={actionLoading === `delete-${employee.id}`} style={{ color: 'var(--red)', borderColor: 'rgba(248,81,73,0.28)' }}>
-                    {actionLoading === `delete-${employee.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <Trash2 size={12} />}
-                    Remove
-                  </button>
-                </div>
+              <div style={{ marginTop: 16, display: 'flex', justifyContent: 'flex-end', gap: 8, flexWrap: 'wrap' }}>
+                <button className="btn btn-secondary btn-sm" onClick={() => resetPassword(employee)} disabled={actionLoading === `reset-${employee.id}`}>
+                  {actionLoading === `reset-${employee.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <KeyRound size={12} />}
+                  Reset Password
+                </button>
+                <button className="btn btn-secondary btn-sm" onClick={() => deleteEmployee(employee)} disabled={actionLoading === `delete-${employee.id}`} style={{ color: 'var(--red)', borderColor: 'rgba(248,81,73,0.28)' }}>
+                  {actionLoading === `delete-${employee.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <Trash2 size={12} />}
+                  Remove
+                </button>
               </div>
             </div>
           ))}
