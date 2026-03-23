@@ -79,11 +79,26 @@ module.exports = (store) => {
       const since = new Date()
       since.setDate(since.getDate() - 7)
       const dailyMap = new Map()
+      
+      // Initialize the last 7 days with 0 so the graph always shows a 7-day trend
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date()
+        d.setDate(d.getDate() - i)
+        // Adjust for local timezone offset before slicing to get the local YYYY-MM-DD
+        d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
+        dailyMap.set(d.toISOString().slice(0, 10), 0)
+      }
+
       tickets
         .filter((ticket) => new Date(ticket.created_at) >= since)
         .forEach((ticket) => {
-          const date = new Date(ticket.created_at).toISOString().slice(0, 10)
-          dailyMap.set(date, (dailyMap.get(date) || 0) + 1)
+          const d = new Date(ticket.created_at)
+          d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
+          const date = d.toISOString().slice(0, 10)
+          
+          if (dailyMap.has(date)) {
+            dailyMap.set(date, dailyMap.get(date) + 1)
+          }
         })
       const dailyTickets = [...dailyMap.entries()].sort().map(([date, count]) => ({ date, count }))
 
