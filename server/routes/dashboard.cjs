@@ -76,6 +76,11 @@ module.exports = (store) => {
         })
       )
 
+      // Client sends its timezone offset in minutes (e.g. -330 for IST)
+      // getTimezoneOffset() returns positive for zones behind UTC, negative for ahead
+      // So for IST (UTC+5:30), browser sends 330. We negate it to get the adjustment.
+      const clientOffsetMinutes = parseInt(req.query.tz_offset, 10) || 0
+
       const since = new Date()
       since.setDate(since.getDate() - 7)
       const dailyMap = new Map()
@@ -84,8 +89,8 @@ module.exports = (store) => {
       for (let i = 6; i >= 0; i--) {
         const d = new Date()
         d.setDate(d.getDate() - i)
-        // Adjust for local timezone offset before slicing to get the local YYYY-MM-DD
-        d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
+        // Adjust from UTC to client's local timezone
+        d.setMinutes(d.getMinutes() - clientOffsetMinutes)
         dailyMap.set(d.toISOString().slice(0, 10), 0)
       }
 
@@ -93,7 +98,8 @@ module.exports = (store) => {
         .filter((ticket) => new Date(ticket.created_at) >= since)
         .forEach((ticket) => {
           const d = new Date(ticket.created_at)
-          d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
+          // Adjust from UTC to client's local timezone
+          d.setMinutes(d.getMinutes() - clientOffsetMinutes)
           const date = d.toISOString().slice(0, 10)
           
           if (dailyMap.has(date)) {

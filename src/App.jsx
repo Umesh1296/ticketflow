@@ -91,7 +91,7 @@ export default function App() {
   const fetchStats = useCallback(async () => {
     try {
       setTicketRefreshKey((k) => k + 1)
-      const { data } = await API.get('/dashboard/stats')
+      const { data } = await API.get(`/dashboard/stats?tz_offset=${new Date().getTimezoneOffset()}`)
       setStats(data.data)
     } catch (err) {
       if (err.response?.status === 401) {
