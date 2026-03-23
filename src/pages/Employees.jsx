@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { CheckCircle2, Clock3, KeyRound, Plus, RefreshCw, ShieldCheck, Trash2, UserRound, Users } from 'lucide-react'
+import { Eye, EyeOff, KeyRound, Plus, RefreshCw, ShieldCheck, Trash2, UserRound, Users } from 'lucide-react'
 import { getFriendlyErrorMessage } from '../lib/api.js'
 
 export default function Employees({ API, addToast, onRefresh, refreshKey }) {
@@ -9,6 +9,7 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
   const [saving, setSaving] = useState(false)
   const [actionLoading, setActionLoading] = useState(null)
   const [lastCredentials, setLastCredentials] = useState(null)
+  const [showPasswordId, setShowPasswordId] = useState(null)
   const [form, setForm] = useState({ name: '', email: '', password: '' })
 
   const fetchEmployees = useCallback(async () => {
@@ -250,11 +251,20 @@ export default function Employees({ API, addToast, onRefresh, refreshKey }) {
                 )}
               </div>
 
-              <div style={{ marginTop: 16, display: 'flex', justifyContent: 'flex-end', gap: 8, flexWrap: 'wrap' }}>
-                <button className="btn btn-secondary btn-sm" onClick={() => resetPassword(employee)} disabled={actionLoading === `reset-${employee.id}`}>
-                  {actionLoading === `reset-${employee.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <KeyRound size={12} />}
-                  Reset Password
-                </button>
+              <div style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                {showPasswordId === employee.id ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--bg-secondary)', borderRadius: 6, padding: '6px 10px', flex: 1, minWidth: 0 }}>
+                    <KeyRound size={12} color="var(--accent)" />
+                    <span style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text-primary)', wordBreak: 'break-all' }}>{employee.last_set_password || 'Not available'}</span>
+                    <button className="btn btn-secondary btn-sm" onClick={() => setShowPasswordId(null)} style={{ marginLeft: 'auto', padding: '2px 8px', fontSize: 10 }}>
+                      <EyeOff size={12} /> Hide
+                    </button>
+                  </div>
+                ) : (
+                  <button className="btn btn-secondary btn-sm" onClick={() => setShowPasswordId(employee.id)}>
+                    <Eye size={12} /> Show Password
+                  </button>
+                )}
                 <button className="btn btn-secondary btn-sm" onClick={() => deleteEmployee(employee)} disabled={actionLoading === `delete-${employee.id}`} style={{ color: 'var(--red)', borderColor: 'rgba(248,81,73,0.28)' }}>
                   {actionLoading === `delete-${employee.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <Trash2 size={12} />}
                   Remove

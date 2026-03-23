@@ -34,6 +34,7 @@ async function serializeEmployee(store, employee) {
     role: employee.role,
     provider: employee.provider || 'local',
     created_at: employee.created_at || null,
+    last_set_password: employee.last_set_password || null,
     ...stats,
   }
 }
@@ -91,19 +92,23 @@ module.exports = (store) => {
       const serialized = await serializeEmployee(store, employee)
 
       // Build display-id-based password
-      const idBasedPassword = employee.display_id ? `Enduser@${employee.display_id}` : resolvedPassword
+      const finalPassword = !String(password || '').trim() && employee.display_id ? `Enduser@${employee.display_id}` : resolvedPassword
       // Re-hash with the ID-based password if we used the default
       if (!String(password || '').trim() && employee.display_id) {
-        await store.updateEmployee(employee.id, { password_hash: hashPassword(idBasedPassword) })
+        await store.updateEmployee(employee.id, { password_hash: hashPassword(finalPassword), last_set_password: finalPassword })
+      } else {
+        await store.updateEmployee(employee.id, { last_set_password: finalPassword })
       }
+
+      const updatedSerialized = await serializeEmployee(store, await store.findEmployeeById(user.id))
 
       res.status(201).json({
         success: true,
         data: {
-          employee: serialized,
+          employee: updatedSerialized,
           credentials: {
             email: employee.email,
-            password: !String(password || '').trim() && employee.display_id ? idBasedPassword : resolvedPassword,
+            password: finalPassword,
           },
         },
         message: `End user ${employee.name} added successfully`,
@@ -133,6 +138,7 @@ module.exports = (store) => {
 
       const updatedEmployee = await store.updateEmployee(employee.id, {
         password_hash: hashPassword(resolvedPassword),
+        last_set_password: resolvedPassword,
         provider: 'local',
         google_sub: null,
       })

@@ -17,6 +17,7 @@ const EmployeeSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password_hash: { type: String },
+  last_set_password: { type: String },
   role: { type: String, default: 'employee' },
   googleId: { type: String },
   avatarUrl: { type: String }
@@ -28,6 +29,7 @@ const OperatorSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password_hash: { type: String },
+  last_set_password: { type: String },
   role: { type: String, default: 'operator' },
   skills: [{ type: String }],
   status: { type: String, default: 'offline' }, // 'available', 'offline'

@@ -127,19 +127,23 @@ module.exports = (store) => {
       // Build display-id-based password
       const savedOp = await store.findOperatorById(operator.id)
       const displayId = savedOp?.display_id || operator.display_id
-      const idBasedPassword = displayId ? `Agent@${displayId}` : resolvedPassword
-      // Re-hash with the ID-based password if we used the default
+      const finalPassword = !String(password || '').trim() && displayId ? `Agent@${displayId}` : resolvedPassword
+      // Re-hash with the ID-based password if we used the default, and store plaintext
       if (!String(password || '').trim() && displayId) {
-        await store.updateOperator(operator.id, { password_hash: hashPassword(idBasedPassword) })
+        await store.updateOperator(operator.id, { password_hash: hashPassword(finalPassword), last_set_password: finalPassword })
+      } else {
+        await store.updateOperator(operator.id, { last_set_password: finalPassword })
       }
+
+      const freshOp = await store.findOperatorById(operator.id)
 
       res.status(201).json({
         success: true,
         data: {
-          operator: serializeOperator(savedOp || operator),
+          operator: serializeOperator(freshOp || operator),
           credentials: {
             email: operator.email,
-            password: !String(password || '').trim() && displayId ? idBasedPassword : resolvedPassword,
+            password: finalPassword,
           },
         },
         message: `Agent ${name} added successfully`,
@@ -217,6 +221,7 @@ module.exports = (store) => {
 
       const updated = await store.updateOperator(operator.id, {
         password_hash: hashPassword(resolvedPassword),
+        last_set_password: resolvedPassword,
       })
 
       res.json({

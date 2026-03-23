@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { KeyRound, Plus, RefreshCw, Trash2, Wifi, WifiOff, Zap } from 'lucide-react'
+import { Eye, EyeOff, KeyRound, Plus, RefreshCw, Trash2, Wifi, WifiOff, Zap } from 'lucide-react'
 import { getFriendlyErrorMessage } from '../lib/api.js'
 import { formatCategoryLabel, TICKET_CATEGORIES } from '../lib/taxonomy.js'
 
@@ -13,6 +13,7 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
   const [form, setForm] = useState({ name: '', email: '', password: '', skills: [], max_load: 5, status: 'available' })
   const [saving, setSaving] = useState(false)
   const [actionLoading, setActionLoading] = useState(null)
+  const [showPasswordId, setShowPasswordId] = useState(null)
 
   const fetchOperators = useCallback(async () => {
     try {
@@ -311,11 +312,20 @@ export default function Operators({ API, addToast, onRefresh, refreshKey }) {
                   </div>
                 </div>
 
-                <div style={{ marginTop: 16, display: 'flex', justifyContent: 'flex-end', gap: 8, flexWrap: 'wrap' }}>
-                  <button className="btn btn-secondary btn-sm" onClick={() => resetPassword(operator)} disabled={actionLoading === `reset-${operator.id}`}>
-                    {actionLoading === `reset-${operator.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <KeyRound size={12} />}
-                    Reset Password
-                  </button>
+                <div style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                  {showPasswordId === operator.id ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--bg-secondary)', borderRadius: 6, padding: '6px 10px', flex: 1, minWidth: 0 }}>
+                      <KeyRound size={12} color="var(--accent)" />
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text-primary)', wordBreak: 'break-all' }}>{operator.last_set_password || 'Not available'}</span>
+                      <button className="btn btn-secondary btn-sm" onClick={() => setShowPasswordId(null)} style={{ marginLeft: 'auto', padding: '2px 8px', fontSize: 10 }}>
+                        <EyeOff size={12} /> Hide
+                      </button>
+                    </div>
+                  ) : (
+                    <button className="btn btn-secondary btn-sm" onClick={() => setShowPasswordId(operator.id)}>
+                      <Eye size={12} /> Show Password
+                    </button>
+                  )}
                   <button className="btn btn-secondary btn-sm" onClick={() => deleteOperator(operator)} disabled={actionLoading === `delete-${operator.id}`} style={{ color: 'var(--red)', borderColor: 'rgba(248,81,73,0.28)' }}>
                     {actionLoading === `delete-${operator.id}` ? <div className="spinner" style={{ width: 12, height: 12 }} /> : <Trash2 size={12} />}
                     Remove
